@@ -214,4 +214,113 @@ class WelcomeActivity extends Activity {
 }
 
 // 5.5
+{
+  def getStockInfo = {
+  // other code here ...
+    ("NFLX", 100.00, 101.00) // this is a Tuple3
+  }
+  val (symbol, currentPrice, bidPrice) = getStockInfo
+  val result = getStockInfo
+  result._1
+  result._2
+}
 
+// 5.6
+{
+  class Pizza {
+// no parentheses after crustSize
+    def crustSize = 12
+  }
+
+  val p = new Pizza
+  p.crustSize
+}
+
+// 5.7
+{
+  def printAll(strings: String*) {
+    strings.foreach(println)
+  }
+  // these all work
+  printAll()
+  printAll("foo")
+  printAll("foo", "bar")
+  printAll("foo", "bar", "baz")
+}
+
+{
+  // a sequence of strings
+  val fruits = List("apple", "banana", "cherry")
+  // pass the sequence to the varargs field
+  printAll(fruits: _*)
+}
+
+{
+  def printAll(numbers: Int*) { numbers.foreach(println) }
+  def printAll(numbers: Int*) { println(numbers.getClass) }
+  printAll(1, 2, 3)
+  printAll()
+}
+
+// 5.8
+@throws(classOf[Exception])
+override def play {
+  // exception throwing code here ...
+}
+
+@throws(classOf[IOException])
+@throws(classOf[LineUnavailableException])
+@throws(classOf[UnsupportedAudioFileException])
+def playSoundFileWithJavaAudio {
+  // exception throwing code here
+}
+
+{
+  object BoomTest extends App {
+    def boom { throw new Exception }
+    println("Before boom")
+    boom
+    // this line is never reached
+    println("After boom")
+  }
+  BoomTest.main(Array())
+}
+
+// 5.9
+{
+  class Person {
+    protected var fname = ""
+    protected var lname = ""
+    def setFirstName(firstName: String): this.type = {
+      fname = firstName
+      this
+    }
+    def setLastName(lastName: String): this.type = {
+      lname = lastName
+      this
+    }
+  }
+
+  class Employee extends Person {
+    protected var role = ""
+    def setRole(role: String): this.type = {
+      this.role = role
+      this
+    }
+    override def toString = {
+      "%s, %s, %s".format(fname, lname, role)
+    }
+  }
+
+  object Main extends App {
+    val employee = new Employee
+    // use the fluent methods
+    employee
+      .setFirstName("Al")
+      .setLastName("Alexander")
+      .setRole("Developer")
+    println(employee)
+  }
+
+  Main.main(Array())
+}
