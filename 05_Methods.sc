@@ -324,3 +324,43 @@ def playSoundFileWithJavaAudio {
 
   Main.main(Array())
 }
+
+{
+  import scala.collection.mutable.ArrayBuffer
+
+  final class Pizza {
+    private val toppings = ArrayBuffer[String]()
+    private var crustSize = 0
+    private var crustType = ""
+
+    def addTopping(topping: String) = {
+      toppings += topping
+      this
+    }
+    def setCrustSize(crustSize: Int) = {
+      this.crustSize = crustSize
+      this
+    }
+    def setCrustType(crustType: String) = {
+      this.crustType = crustType
+      this
+    }
+    def print() {
+      println(s"crust size: $crustSize")
+      println(s"crust type: $crustType")
+      println(s"toppings: $toppings")
+    }
+  }
+
+  object FluentPizzaTest extends App {
+    val p = new Pizza
+
+    p.setCrustSize(14)
+      .setCrustType("thin")
+      .addTopping("cheese")
+      .addTopping("green olives")
+      .print()
+  }
+
+  FluentPizzaTest.main(Array())
+}
