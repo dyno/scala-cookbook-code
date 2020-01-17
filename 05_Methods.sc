@@ -174,3 +174,44 @@ class WelcomeActivity extends Activity {
 }
 
 // 5.3
+
+{
+  class Connection {
+    def makeConnection(timeout: Int = 5000, protocol: String = "http") {
+      println("timeout = %d, protocol = %s".format(timeout, protocol))
+      // more code here
+    }
+  }
+
+  val c = new Connection
+  c.makeConnection()
+  c.makeConnection(2000)
+  c.makeConnection(3000, "https")
+
+  c.makeConnection(timeout=10000)
+  c.makeConnection(protocol="https")
+  c.makeConnection(timeout=10000, protocol="https")
+}
+
+// 5.4
+
+{
+  class Pizza {
+    var crustSize = 12
+    var crustType = "Thin"
+    def update(crustSize: Int, crustType: String) {
+      this.crustSize = crustSize
+      this.crustType = crustType
+    }
+    override def toString = {
+      "A %d inch %s crust pizza.".format(crustSize, crustType)
+    }
+  }
+
+  val p = new Pizza
+  p.update(crustSize = 16, crustType = "Thick")
+  p.update(crustType = "Pan", crustSize = 14)
+}
+
+// 5.5
+
