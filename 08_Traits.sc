@@ -1,4 +1,4 @@
-// 8.1
+// 8.1 Using a Trait as an Interface
 trait BaseSoundPlayer {
   def play
   def close
@@ -33,7 +33,7 @@ trait Mp3BaseSoundFilePlayer extends BaseSoundFilePlayer {
   def setGain(volume: Double)
 }
 
-// 8.2
+// 8.2 Using Abstract and Concrete Fields in Traits
 
 trait PizzaTrait {
   var numToppings: Int // abstract
@@ -47,7 +47,7 @@ class Pizza extends PizzaTrait {
   override val maxNumToppings = 10 // 'override' is required
 }
 
-// 8.3
+// 8.3 Using a Trait Like an Abstract Class
 {
   trait Pet {
     // > Avoid the procedure syntax, as it tends to be confusing for very little gain in brevity.
@@ -73,7 +73,7 @@ class Pizza extends PizzaTrait {
 
 }
 
-// 8.4
+// 8.4 Using Traits as Simple Mixins
 {
   trait Tail {
     def wagTail { println("tail is wagging") }
@@ -103,7 +103,7 @@ class Pizza extends PizzaTrait {
   Test.main(Array())
 }
 
-// 8.5
+// 8.5 Limiting Which Classes Can Use a Trait by Inheritance
 {
   class StarfleetComponent
   trait StarfleetWarpCore extends StarfleetComponent
@@ -129,7 +129,7 @@ class Pizza extends PizzaTrait {
   class Receptionist extends CorporateEmployee with DeliversFood
 }
 
-// 8.6
+// 8.6 Marking Traits So They Can Only Be Used by Subclasses of a Certain Type
 {
   trait StarfleetWarpCore { this: Starship =>
     // more code here ...
@@ -154,7 +154,7 @@ class Pizza extends PizzaTrait {
   class Enterprise extends Starship with WarpCore with WarpCoreEjector with FireExtinguisher
 }
 
-// 8.7
+// 8.7 Ensuring a Trait Can Only Be Added to a Type That Has a Specific Method
 
 {
   trait WarpCore {
@@ -187,7 +187,7 @@ class Pizza extends PizzaTrait {
   }
 }
 
-// 8.8
+// 8.8 Adding a Trait to an Object Instance
 {
   class DavidBanner
   trait Angry {
@@ -214,7 +214,7 @@ class Pizza extends PizzaTrait {
   val problemChild = new ProblemChild with Debugger
 }
 
-// 8.9
+// 8.9 Extending a Java Interface Like a Trait
 
 ```java
 public interface Animal { public void speak(); }

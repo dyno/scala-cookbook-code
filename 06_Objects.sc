@@ -1,4 +1,4 @@
-// 6.1
+// 6.1 Object Casting
 {
   val a = 10
   val b = a.asInstanceOf[Long]
@@ -10,7 +10,7 @@
   // i.asInstanceOf[String]
 }
 
-// 6.2
+// 6.2 The Scala Equivalent of Java\xe2\x80\x99s .class
 
 val info = new DataLine.Info(classOf[TargetDataLine], null)
 
@@ -19,7 +19,7 @@ val info = new DataLine.Info(classOf[TargetDataLine], null)
 val stringClass = classOf[String]
 stringClass.getMethods
 
-// 6.3
+// 6.3 Determining the Class of an Object
 
 {
   def printAll(numbers: Int*) { println("class: " + numbers.getClass) }
@@ -37,7 +37,7 @@ stringClass.getMethods
   printClass("yo")
 }
 
-// 6.4
+// 6.4 Launching an Application with an Object
 
 {
   object Hello extends App {
@@ -68,7 +68,7 @@ stringClass.getMethods
   Hello2.main(Array())
 }
 
-// 6.5
+// 6.5 Creating Singletons with object
 {
   object CashRegister {
     def open { println("opened") }
@@ -103,7 +103,7 @@ stringClass.getMethods
   DateUtils.getCurrentTime
 }
 
-// 6.6
+// 6.6 Creating Static Members with Companion Objects
 
 {
   // Pizza class
@@ -154,7 +154,7 @@ stringClass.getMethods
   Driver.main(Array())
 }
 
-// 6.7
+// 6.7 Putting Common Code in Package Objects
 package com.alvinalexander.myapp
 // com/alvinalexander/myapp/package.scala
 package object model {
@@ -189,7 +189,7 @@ package object model {
   MainDriver.main(Array())
 }
 
-// 6.8
+// 6.8 Creating Object Instances Without Using the new Keyword
 {
   class Person {
     var name: String = _
@@ -266,7 +266,7 @@ package object model {
   Test.main(Array())
 }
 
-// 6.9
+// 6.9 Implement the Factory Method in Scala with apply
 {
   trait Animal {
     def speak

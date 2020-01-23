@@ -1,4 +1,4 @@
-// 2.1
+// 2.1 Parsing a Number from a String
 /* *
  * Char    16-bit unsigned Unicode character
  * Byte    8-bit signed value
@@ -82,7 +82,7 @@ val result = toInt(aString) match {
   case None    => 0 // however you want to handle this
 }
 
-// 2.2
+// 2.2 Converting Between Numeric Types (Casting)
 19.45.toInt
 19.toFloat
 19.toDouble
@@ -93,7 +93,7 @@ val a = 1000L
 a.isValidShort
 a.isValidByte
 
-// 2.3
+// 2.3 Overriding the Default Numeric Type
 val a = 1
 val a = 1d
 val a = 1f
@@ -116,7 +116,7 @@ class Foo {
 
 var name = null.asInstanceOf[String]
 
-// 2.4
+// 2.4 Replacements for ++ and --
 var a = 1
 a += 1; a
 a -= 1; a
@@ -131,7 +131,7 @@ x += 1; x
 var x = 1f
 x += 1; x
 
-// 2.5
+// 2.5 Comparing Floating-Point Numbers
 def ~=(x: Double, y: Double, precision: Double) = {
   if ((x - y).abs < precision) true
   else false
@@ -155,7 +155,7 @@ object MathUtils {
 }
 println(MathUtils.~=(a, b, 0.000001))
 
-// 2.6
+// 2.6 Handling Very Large Numbers
 var b = BigInt(1234567890)
 var b = BigDecimal(123456.789)
 b + b
@@ -181,7 +181,7 @@ Double.PositiveInfinity
 Double.NegativeInfinity
 1.7976931348623157E308 > Double.PositiveInfinity
 
-// 2.7
+// 2.7 Generating Random Numbers
 val r = scala.util.Random
 r.nextInt
 r.nextInt(100)
@@ -199,7 +199,7 @@ for (i <- 0 to r.nextInt(10)) yield (i * r.nextFloat)
 for (i <- 0 to r.nextInt(10)) yield r.nextPrintableChar
 for (i <- 1 to 5) yield r.nextInt(100)
 
-// 2.8
+// 2.8 Creating a Range, List, or Array of Numbers
 val r = 1 to 10
 val r = 1 to 10 by 2
 val r = 1 to 10 by 3
@@ -213,7 +213,7 @@ var range = 0 to scala.util.Random.nextInt(10)
 for (i <- 1 to 5) yield i * 2
 for (i <- 1 to 5) yield i.toDouble
 
-// 2.9
+// 2.9 Formatting Numbers and Currency
 val pi = scala.math.Pi
 println(f"$pi%1.5f")
 f"$pi%1.5f"

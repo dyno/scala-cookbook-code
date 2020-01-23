@@ -1,7 +1,7 @@
 val greater = if (a > b) a else b
 val result = try { aString.toInt } catch { case _ => 0 }
 
-// 9.1
+// 9.1 Using Function Literals (Anonymous Functions)
 val x = List.range(1, 10)
 val evens = x.filter((i: Int) => i % 2 == 0)
 val evens = x.filter(_ % 2 == 0)
@@ -11,7 +11,7 @@ x.foreach(i => println(i))
 x.foreach(println(_))
 x.foreach(println)
 
-// 9.2
+// 9.2 Using Functions as Variables
 (i: Int) => { i * 2 }
 val double = (i: Int) => { i * 2 }
 double(2) // 4
@@ -64,7 +64,7 @@ plusOne(1)
 def plusOne(i: Int): Unit = i + 1
 plusOne(1)
 
-// 9.3
+// 9.3 Defining a Method That Accepts a Simple Function Parameter
 {
   def exec(callback: Int => Unit) {
     // invoke the function we were given, giving it an Int parameter
@@ -190,7 +190,7 @@ isOfVotingAge(20) // true
   buyStuff(addToBasket, "grapes")
 }
 
-// 9.6
+// 9.6 Using Partially Applied Functions
 val sum = (a: Int, b: Int, c: Int) => a + b + c
 val f = sum(1, 2, _: Int)
 f(3)
@@ -203,7 +203,7 @@ wrapWithDiv("<p>Hello, world</p>")
 wrapWithDiv("<img src=\"/images/foo.png\" />")
 wrap("<pre>", "val x = 1", "</pre>")
 
-// 9.7
+// 9.7 Creating a Function That Returns a Function
 // function literal, a.k.a anonymous function
 (s: String) => { prefix + " " + s }
 def saySomething(prefix: String) = (s: String) => { prefix + " " + s }
@@ -228,7 +228,7 @@ val bbuenosDias = greeting("spanish")
 hello("Al")
 buenosDias("Lorenzo")
 
-// 9.8
+// 9.8 Creating Partial Functions
 val divide = (x: Int) => 42 / x
 divide(0)
 
@@ -290,7 +290,7 @@ val isOdd: PartialFunction[Int, String] = {
 }
 val numbers = sample map (isEven orElse isOdd)
 
-// 9.9
+// 9.9 A Real-World Example
 object NewtonsMethod {
   def main(args: Array[String]) {
     driver

@@ -8,7 +8,7 @@ s.getBytes.foreach(println)
 val result = "hello world".filter(_ != 'l')
 "scala".drop(2).take(2).capitalize
 
-// 1.1
+// 1.1 Testing String Equality
 val s1 = "Hello"
 val s2 = "Hello"
 val s3 = "H" + "ello"
@@ -30,7 +30,7 @@ val a = "Marisa"
 val b = "marisa"
 a.equalsIgnoreCase(b)
 
-// 1.2
+// 1.2 Creating Multiline Strings
 val foo = """This is
 a multiline
 String"""
@@ -48,7 +48,7 @@ val s = """This is known as a
 |"multiline" string
 |or 'heredoc' syntax.""".stripMargin.replaceAll("\n", " ")
 
-// 1.3
+// 1.3 Splitting Strings
 "hello world".split(" ")
 "hello world".split(" ").foreach(println)
 val s = "eggs, milk, butter, Coco Puffs"
@@ -57,7 +57,7 @@ s.split(",").map(_.trim)
 "hello world, this is Al".split("\\s+")
 "hello world".split(" ")
 "hello world".split(' ')
-// 1.4
+// 1.4 Substituting Variables into Strings
 val name = "Fred"
 val age = 33
 val weight = 200.00
@@ -81,7 +81,7 @@ val s = "%s is %d years old".format(name, age)
 println("%s is %d years old".format(name, age))
 override def toString: String = "%s %s, age %d".format(firstName, lastName, age)
 
-// 1.5
+// 1.5 Processing a String One Character at a Time
 val upper = "hello, world".map(c => c.toUpper)
 val upper = "hello, world".map(_.toUpper)
 val upper = "hello, world".filter(_ != 'l').map(_.toUpper)
@@ -140,7 +140,7 @@ object Adler32Checksum {
 "hello".getBytes
 "hello".getBytes.foreach(println)
 
-// 1.6
+// 1.6 Finding Patterns in Strings
 val numPattern = "[0-9]+".r
 val address = "123 Main Street Suite 101"
 val match1 = numPattern.findFirstIn(address)
@@ -156,7 +156,7 @@ match1 match {
   case None    =>
 }
 
-// 1.7
+// 1.7 Replacing Patterns in Strings
 val address = "123 Main Street".replaceAll("[0-9]", "x")
 val regex = "[0-9]".r
 val newAddress = regex.replaceAllIn("123 Main Street", "x")
@@ -164,7 +164,7 @@ val result = "123".replaceFirst("[0-9]", "x")
 val regex = "H".r
 val result = regex.replaceFirstIn("Hello world", "J")
 
-// 1.8
+// 1.8 Extracting Parts of a String That Match Patterns
 val pattern = "([0-9]+) ([A-Za-z]+)".r
 val pattern(count, fruit) = "100 Bananas"
 
@@ -178,13 +178,13 @@ textUserTyped match {
   case _                                  => println("did not match a regex")
 }
 
-// 1.9
+// 1.9 Accessing a Character in a String
 "hello".charAt(0)
 "hello" (0)
 "hello" (1)
 "hello".apply(1)
 
-// 1.10
+// 1.10 Add Your Own Methods to the String Class
 implicit class StringImprovements(s: String) {
   def increment = s.map(c => (c + 1).toChar)
 }

@@ -5,7 +5,7 @@ def doSomething(x: Int): String = {
 
 def plusOne(i: Int) = i + 1
 
-// 5.1
+// 5.1 Controlling Method Scope
 
 class Foo {
   private[this] def isFoo = true
@@ -108,7 +108,7 @@ package org.xyz.bar
   }
 }
 
-// 5.2
+// 5.2 Calling a Method on a Superclass
 
 class WelcomeActivity extends Activity {
   override def onCreate(bundle: Bundle) {
@@ -173,7 +173,7 @@ class WelcomeActivity extends Activity {
   }
 }
 
-// 5.3
+// 5.3 Setting Default Values for Method Parameters
 
 {
   class Connection {
@@ -193,7 +193,7 @@ class WelcomeActivity extends Activity {
   c.makeConnection(timeout=10000, protocol="https")
 }
 
-// 5.4
+// 5.4 Using Parameter Names When Calling a Method
 
 {
   class Pizza {
@@ -213,7 +213,7 @@ class WelcomeActivity extends Activity {
   p.update(crustType = "Pan", crustSize = 14)
 }
 
-// 5.5
+// 5.5 Defining a Method That Returns Multiple Items (Tuples)
 {
   def getStockInfo = {
   // other code here ...
@@ -225,7 +225,7 @@ class WelcomeActivity extends Activity {
   result._2
 }
 
-// 5.6
+// 5.6 Forcing Callers to Leave Parentheses off Accessor Methods
 {
   class Pizza {
 // no parentheses after crustSize
@@ -236,7 +236,7 @@ class WelcomeActivity extends Activity {
   p.crustSize
 }
 
-// 5.7
+// 5.7 Creating Methods That Take Variable-Argument Fields
 {
   def printAll(strings: String*) {
     strings.foreach(println)
@@ -262,7 +262,7 @@ class WelcomeActivity extends Activity {
   printAll()
 }
 
-// 5.8
+// 5.8 Declaring That a Method Can Throw an Exception
 @throws(classOf[Exception])
 override def play {
   // exception throwing code here ...
@@ -286,7 +286,7 @@ def playSoundFileWithJavaAudio {
   BoomTest.main(Array())
 }
 
-// 5.9
+// 5.9 Supporting a Fluent Style of Programming
 {
   class Person {
     protected var fname = ""

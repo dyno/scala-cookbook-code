@@ -1,4 +1,4 @@
-// 7.1
+// 7.1 Packaging with the Curly Braces Style Notation
 
 package com.acme.store {
   class Foo { override def toString = "I am com.acme.store.Foo" }
@@ -44,7 +44,7 @@ class Foo {
   override def toString = "I'm foo.bar.baz.Foo"
 }
 
-// 7.2
+// 7.2 Importing One or More Members
 import java.io.{File, IOException, FileNotFoundException}
 import java.io._
 
@@ -69,7 +69,7 @@ class Bar {
   }
 }
 
-// 7.3
+// 7.3 Renaming Members on Import
 import java.util.{ArrayList => JavaList}
 val list = new JavaList[String]
 
@@ -85,14 +85,14 @@ import scala.collection.mutable.Map
 import System.out.{println => p}
 p("hello")
 
-// 7.4
+// 7.4 Hiding a Class During the Import Process
 import java.util.{Random => _, _}
 val r = new Random
 new ArrayList
 
 import java.util.{List => _, Map => _, Set => _, _}
 
-// 7.5
+// 7.5 Using Static Imports
 import java.lang.Math._
 val a = sin(0)
 val a = cos(PI)
@@ -116,7 +116,7 @@ val currentColor = BLUE
   }
 }
 
-// 7.6
+// 7.6 Using Import Statements Anywhere
 
 package foo
 import scala.util.Random

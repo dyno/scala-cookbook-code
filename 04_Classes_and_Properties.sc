@@ -1,4 +1,4 @@
-// 4.1
+// 4.1 Creating a Primary Constructor
 class Person(var firstName: String, var lastName: String) {
   println("the constructor begins")
   // some class fields
@@ -40,7 +40,7 @@ object Test extends App {
 }
 
 
-// 4.2
+// 4.2 Controlling the Visibility of Constructor Fields
 class Person(var name: String)
 val p = new Person("Alvin Alexander")
 p.name
@@ -66,7 +66,7 @@ val p = Person("Dale Cooper")
 p.name
 
 
-// 4.3
+// 4.3 Defining Auxiliary Constructors
 // primary constructor
 {
   class Pizza(var crustSize: Int, var crustType: String) {
@@ -125,7 +125,7 @@ val p = Person.apply("John Smith", 30)
   CaseClassTest.main(Array())
 }
 
-// 4.4
+// 4.4 Defining a Private Primary Constructor
 class Person private (name: String)
 // val p = new Person("Mercedes")
 
@@ -162,7 +162,7 @@ class Person private (name: String)
   FileUtils.writeToFile("output.txt", content)
 }
 
-// 4.5
+// 4.5 Providing Default Values for Constructor Parameters
 {
   class Socket(val timeout: Int = 10000)
 
@@ -194,7 +194,7 @@ class Person private (name: String)
   println(new Socket(linger=4000))
 }
 
-// 4.6
+// 4.6 Overriding Default Accessors and Mutators
 
 {
   class Person(private var _name: String) {
@@ -217,7 +217,7 @@ class Stock(var _symbol: String) { // getter
   }
 }
 
-// 4.7
+// 4.7 Preventing Getter and Setter Methods from Being Generated
 
 class Stock {
   // getter and setter methods are generated
@@ -258,7 +258,7 @@ class Stock {
   def isHigher(that: Stock): Boolean = this.price > that.price
 }
 
-// 4.8
+// 4.8 Assigning a Field to a Block or Function
 {
   class Foo {
     // set 'text' equal to the result of the block of code
@@ -356,7 +356,7 @@ var s: Short = 0
   teresa.age
 }
 
-// 4.11
+// 4.11 Calling a Superclass Constructor
 
 {
   // (1) primary constructor
@@ -403,7 +403,7 @@ var s: Short = 0
   }
 }
 
-// 4.12
+// 4.12 When to Use an Abstract Class
 
 // raits don’t allow constructor parameters:
 // this won't compile
@@ -424,7 +424,7 @@ abstract class BaseController(db: Database) {
   def setServerName(serverName: String)
 }
 
-// 4.13
+// 4.13 Defining Properties in an Abstract Base Class (or Trait)
 {
   abstract class Pet(name: String) {
     val greeting: String
@@ -545,7 +545,7 @@ abstract class BaseController(db: Database) {
   Test.main(Array())
 }
 
-// 4.14
+// 4.14 Generating Boilerplate Code with Case Classes
 {
   case class Person(name: String, relation: String)
   val emily = Person("Emily", "niece")
@@ -575,7 +575,7 @@ abstract class BaseController(db: Database) {
   val joe = fred.copy(name = "Joe", role = "Mechanic")
 }
 
-// 4.15
+// 4.15 Defining an equals Method (Object Equality)
 
 class Person(name: String, age: Int) {
   def canEqual(a: Any) = a.isInstanceOf[Person]
@@ -647,7 +647,7 @@ import org.scalatest.{FunSuite, BeforeAndAfter}
   org.scalatest.run(new PersonTests())
 }
 
-// 4.16
+// 4.16 Creating Inner Classes
 {
   class PandorasBox {
     case class Thing(name: String)

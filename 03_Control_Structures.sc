@@ -18,7 +18,7 @@ for {
 val nieces = List("emily", "hannah", "mercedes", "porsche")
 for (n <- nieces) yield n.capitalize
 
-// 3.1
+// 3.1 Looping with for and foreach
 val a = Array("apple", "banana", "orange")
 for (e <- a) println(e)
 
@@ -94,7 +94,7 @@ for {
 for { i <- 1 to 10 } yield i
 1.to(10).map(identity)
 
-// 3.2
+// 3.2 Using for Loops with Multiple Counters
 for (i <- 1 to 2; j <- 1 to 2) println(s"i = $i, j = $j")
 for {
   i <- 1 to 2
@@ -122,7 +122,7 @@ for {
   j <- 2 to 3
 } println(s"i = $i, j = $j")
 
-// 3.3
+// 3.3 Using a for Loop with Embedded if Statements (Guards)
 for (i <- 1 to 10 if i % 2 == 0) println(i)
 for {
   i <- 1 to 10
@@ -146,7 +146,7 @@ for {
   if passesFilter2(file)
 } doSomething(file)
 
-// 3.4
+// 3.4 Creating a for Comprehension (for/yield Combination)
 val names = Array("chris", "ed", "maurice")
 val capNames = for (e <- names) yield e.capitalize
 val lengths = for (e <- names) yield {
@@ -165,7 +165,7 @@ val out = for (e <- fruits) yield e.toUpperCase // a List
 val out = for (e <- fruits) yield e.toUpperCase
 val out = fruits.map(_.toUpperCase)
 
-// 3.5
+// 3.5 Implementing break and continue
 
 // package com.alvinalexander.breakandcontinue
 import scala.util.control.Breaks._
@@ -284,7 +284,7 @@ def factorial(n: Int): Int = {
   factorialAcc(1, n)
 }
 
-// 3.6
+// 3.6 Using the if Construct Like a Ternary Operator
 // val absValue = if (a < 0) -a else a
 if (i == 0) "a" else "b"
 hash = hash * prime + (if (name == null) 0 else name.hashCode)
@@ -293,7 +293,7 @@ def abs(x: Int) = if (x >= 0) x else -x
 def max(a: Int, b: Int) = if (a > b) a else b
 val c = if (a > b) a else b
 
-// 3.7
+// 3.7 Using a Match Expression Like a switch Statement
 // i is an integer
 i match {
   case 1  => println("January")
@@ -385,7 +385,7 @@ val monthNumberToName = Map(
 val monthName = monthNumberToName(4)
 println(monthName) // prints "April"
 
-// 3.8
+// 3.8 Matching Multiple Conditions with One Case Statement
 val i = 5 i match {
   case 1 | 3 | 5 | 7 | 9  => println("odd")
   case 2 | 4 | 6 | 8 | 10 => println("even")
@@ -409,7 +409,7 @@ def executeCommand(cmd: Command) = cmd match {
   case Stop | Whoa => stop()
 }
 
-// 3.9
+// 3.9 Assigning the Result of a Match Expression to a Variable
 val evenOrOdd = someNumber match {
   case 1 | 3 | 5 | 7 | 9  => println("odd")
   case 2 | 4 | 6 | 8 | 10 => println("even")
@@ -420,7 +420,7 @@ def isTrue(a: Any) = a match {
   case _      => true
 }
 
-// 3.10
+// 3.10 Accessing the Value of the Default Case in a Match Expression
 i match {
   case 0       => println("1")
   case 1       => println("2")
@@ -439,7 +439,7 @@ i match {
 }
 // => scala.MatchError
 
-// 3.11
+// 3.11 Using Pattern Matching in Match Expressions
 
 object LargeMatchTest extends App {
   case class Person(firstName: String, lastName: String)
@@ -555,7 +555,7 @@ toInt("42") match {
   case None    => println("That wasn't an Int.")
 }
 
-// 3.12
+// 3.12 Using Case Classes in Match Expressions
 trait Animal
 case class Dog(name: String) extends Animal
 case class Cat(name: String) extends Animal
@@ -572,7 +572,7 @@ object CaseClassTest extends App {
   println(determineType(Woodpecker))
 }
 
-// 3.13
+// 3.13 Adding if Expressions (Guards) to Case Statements
 i match {
   case a if 0 to 9 contains a   => println("0-9 range: " + a)
   case b if 10 to 19 contains b => println("10-19 range: " + b)
@@ -598,7 +598,7 @@ def speak(p: Person) = p match {
   case _                                 => println("Watch the Flintstones!")
 }
 
-// 3.14
+// 3.14 Using a Match Expression Instead of isInstanceOf
 def isPerson(x: Any): Boolean = x match {
   case p: Person => true
   case _         => false
@@ -614,7 +614,7 @@ def printInfo(x: SentientBeing) = x match {
   case Dog(name)         => // handle the Dog
 }
 
-// 3.15
+// 3.15 Working with a List in a Match Expression
 val x = List(1, 2, 3)
 val y = 1 :: 2 :: 3 :: Nil
 
@@ -637,7 +637,7 @@ val nums = List(1, 2, 3, 4, 5)
 sum(nums)
 multiply(nums)
 
-// 3.16
+// 3.16 Matching One or More Exceptions with try/catch
 val s = "Foo"
 try {
   val i = s.toInt
@@ -674,7 +674,7 @@ def toInt(s: String): Option[Int] =
     case e: NumberFormatException => throw e
   }
 
-// 3.17
+// 3.17 Declaring a Variable Before Using It in a try/catch/finally Block
 import java.io._
 object CopyBytes extends App {
 
@@ -732,7 +732,7 @@ try {
   if (store != null) store.close
 }
 
-// 3.18
+// 3.18 Creating Your Own Control Structures
 
 package com.alvinalexander.controls
 import scala.annotation.tailrec
