@@ -144,4 +144,220 @@ m.values
 m.valuesIterator
 
 // 10.4. Understanding the Performance of Collections
+
 // 10.5. Declaring a Type When Creating a Collection
+val x = List(1, 2.0, 33D, 400L)
+val x = List[Number](1, 2.0, 33D, 400L)
+val x = List[AnyVal](1, 2.0, 33D, 400L)
+
+trait Animal
+trait FurryAnimal extends Animal
+case class Dog(name: String) extends Animal
+case class Cat(name: String) extends Animal
+
+val x = Array(Dog("Fido"), Cat("Felix"))
+val x = Array[Animal](Dog("Fido"), Cat("Felix"))
+
+class AnimalKingdom {
+  def animals = Array(Dog("Fido"), Cat("Felix"))
+}
+class AnimalKingdom {
+  def animals = Array[Animal](Dog("Fido"), Cat("Felix"))
+}
+
+// 10.6. Understanding Mutable Variables with Immutable Collections
+
+var sisters = Vector("Melinda")
+sisters = sisters :+ "Melissa"
+sisters = sisters :+ "Marisa"
+
+var sisters = Vector("Melinda")
+sisters = Vector("Melinda", "Melissa")
+sisters = Vector("Melinda", "Melissa", "Marisa")
+
+
+// 10.7. Make Vector Your “Go To” Immutable Sequence
+val v = Vector("a", "b", "c")
+v(0)
+val a = Vector(1, 2, 3)
+val b = a ++ Vector(4, 5)
+val c = b.updated(0, "x")
+val a = Vector(1, 2, 3, 4, 5)
+val b = a.take(2)
+val c = a.filter(_ > 2)
+var a = Vector(1, 2, 3)
+a = a ++ Vector(4, 5)
+
+val x = IndexedSeq(1,2,3)
+
+// 10.8. Make ArrayBuffer Your “Go To” Mutable Sequence Problem
+import scala.collection.mutable.ArrayBuffer
+
+var fruites = ArrayBuffer[String]()
+var ints = ArrayBuffer[Int]()
+var nums = ArrayBuffer(1, 2, 3)
+nums += 4
+nums += (5, 6)
+nums ++= List(7, 8)
+nums -= 9
+nums -= (7, 8)
+nums --= Array(5, 6)
+
+val a = ArrayBuffer(1, 2, 3)
+a.append(4)
+a.append(5, 6)
+a.appendAll(Seq(7,8))
+a.clear
+
+val a = ArrayBuffer(9, 10)
+a.insert(0, 8)
+a.insert(0, 6, 7)
+a.insertAll(0, Vector(4, 5))
+a.prepend(3)
+a.prepend(1, 2)
+a.prependAll(Array(0))
+
+val a = ArrayBuffer.range('a', 'h')
+a.remove(0)
+a.remove(2, 3)
+
+val a = ArrayBuffer.range('a', 'h')
+a.trimStart(2)
+a.trimEnd(2)
+
+// 10.9. Looping over a Collection with foreach
+val x = Vector(1, 2, 3)
+x.foreach((i: Int) => println(i))
+
+def printIt(c: Char) { println(c) }
+"HAL".foreach(c => printIt(c))
+"HAL".foreach(printIt)
+"HAL".foreach((c: Char) => println(c))
+
+val longWords = new StringBuilder
+"Hello world it's Al".split(" ").foreach { e =>
+  if (e.length > 4) longWords.append(s" $e")
+  else println("Not added: " + e)
+}
+
+"Hello world it's Al".split(" ")
+
+val m = Map("fname" -> "Tyler", "lname" -> "LeDude")
+m foreach (x => println(s"${x._1} -> ${x._2}"))
+
+movieRatings.foreach {
+  case (movie, rating) => println(s"key: $movie, value: $rating")
+}
+
+// 10.10. Looping over a Collection with a for Loop
+val fruits = Traversable("apple", "banana", "orange")
+for (f <- fruits) println(f)
+for (f <- fruits) println(f.toUpperCase)
+
+val fruits = Array("apple", "banana", "orange")
+for (f <- fruits) {
+  // imagine this required multiple lines
+  val s = f.toUpperCase
+  printlin(s)
+}
+for (i <- 0 until fruits.size) println(s"element $i is ${fruits(i)}")
+for ((elem, count) <- fruits.zipWithIndex) {
+  println(s"element $count is $elem")
+}
+for ((elem, count) <- fruits.view.zipWithIndex) {
+  println(s"element $count is $elem")
+}
+for ((elem, count) <- fruits.zip(Stream from 1)) {
+  println(s"element $count is $elem")
+}
+for (i <- 1 to 3) println(i)
+for (i <- 1 to 3) {
+  // do whatever you want in this block
+  println(i)
+}
+
+val fruits = Array("apple", "banana", "orange")
+val newArray = for (e <- fruits) yield e.toUpperCase
+val newArray = for (fruit <- fruits) yield {
+  // imagine this required multiple lines
+  val upper = fruit.toUpperCase
+  upper
+}
+{
+  val fruits = Array("apple", "banana", "orange")
+  def upperReverse(s: String) = {
+    // imagine this is a long algorithm
+    s.toUpperCase.reverse
+  }
+  val newArray = for (fruit <- fruits) yield upperReverse(fruit)
+}
+
+val names = Map("fname" -> "Ed", "lname" -> "Chigliak")
+for ((k, v) <- names) println(s"key: $k, value: $v")
+
+// 10.11. Using zipWithIndex or zip to Create Loop Counters
+
+val days = Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+days.zipWithIndex.foreach {
+  case (day, count) => println(s"$count is $day")
+}
+for ((day, count) <- days.zipWithIndex) {
+  println(s"$count is $day")
+}
+for ((day, count) <- days.zip(Stream from 1)) {
+  println(s"day $count is $day")
+}
+
+val list = List("a", "b", "c")
+val zwi = list.zipWithIndex
+val zwi2 = list.view.zipWithIndex
+
+days.zipWithIndex.foreach { d =>
+  println(s"${d._2} is ${d._1}")
+}
+
+val fruits = Array("apple", "banana", "orange")
+for (i <- 0 until fruits.size) println(s"element $i is ${fruits(i)}")
+
+// 10.12. Using Iterators
+
+val it = Iterator(1, 2, 3)
+it.foreach(println)
+it.foreach(println) // exhausted
+
+// 10.13. Transforming One Collection to Another with for/yield
+
+val a = Array(1, 2, 3, 4, 5)
+for (e <- a) yield e
+for (e <- a) yield e * 2
+for (e <- a) yield e % 2
+val fruits = Vector("apple", "banana", "lime", "orange")
+val ucFruits = for (e <- fruits) yield e.toUpperCase
+for (i <- 0 until fruits.length) yield (i, fruits(i))
+for (f <- fruits) yield (f, f.length)
+val x = for (e <- fruits) yield {
+  // imagine this required multiple lines
+  val s = e.toUpperCase
+  s
+}
+
+case class Person(name: String)
+val friends = Vector("Mark", "Regina", "Matt")
+for (f <- friends) yield Person(f)
+val x = for (e <- fruits if e.length < 6) yield e.toUpperCase
+val fruits = scala.collection.mutable.ArrayBuffer("apple", "banana")
+val x = for (e <- fruits) yield e.toUpperCase
+val fruits = "apple" :: "banana" :: "orange" :: Nil
+val x = for (e <- fruits) yield e.toUpperCase
+
+for {
+  file <- files
+  if hasSoundFileExtension(file)
+  if !soundFileIsLong(file)
+} yield file
+
+val cars = Vector("Mercedes", "Porsche", "Tesla")
+for {
+  c <- cars
+  if c.startsWith("M")
+} yield c
