@@ -361,3 +361,57 @@ for {
   c <- cars
   if c.startsWith("M")
 } yield c
+
+// 10.14. Transforming One Collection to Another with map
+
+val helpers = Vector("adam", "kim", "melissa")
+val caps = helpers.map(e => e.capitalize)
+val caps = helpers.map(_.capitalize)
+
+val names = Array("Fred", "Joe", "Jonathan")
+val lengths = names.map(_.length)
+val nieces = List("Aleka", "Christina", "Molly")
+val elems = nieces.map(niece => <li>{niece}</li>)
+val ul = <ul>{nieces.map(i => <li>{i}</li>)}</ul>
+
+def plusOne(c: Char): Char = (c.toByte + 1).toChar
+"HAL".map(plusOne)
+
+val s = " eggs, milk, butter, Coco Puffs "
+val items = s.split(",").map(_.trim)
+
+val people = List("adam", "kim", "melissa")
+val caps1 = people.map(_.capitalize)
+val caps2 = for (p <- people) yield p.capitalize
+
+val fruits = List("apple", "banana", "lime", "orange", "raspberry")
+val newFruits = fruits.map(f => if (f.length < 6) f.toUpperCase)
+newFruits.filter(_ != ())
+
+val fruits = List("apple", "banana", "lime", "orange", "raspberry")
+fruits.filter(_.length < 6).map(_.toUpperCase)
+
+// 10.15. Flattening a List of Lists with flatten
+
+val lol = List(List(1,2), List(3,4))
+val result = lol.flatten
+
+val a = Array(Array(1,2), Array(3,4))
+a.flatten
+
+val couples = List(List("kim", "al"), List("julia", "terry"))
+val people = couples.flatten
+val people = couples.flatten.map(_.capitalize).sorted
+
+val myFriends = List("Adam", "David", "Frank")
+val adamsFriends = List("Nick K", "Bill M")
+val davidsFriends = List("Becca G", "Kenny D", "Bill M")
+val friendsOfFriends = List(adamsFriends, davidsFriends)
+val uniqueFriendsOfFriends = friendsOfFriends.flatten.distinct
+
+val list = List("Hello", "world")
+list.flatten
+
+val x = Vector(Some(1), None, Some(3), None)
+x.flatten
+
