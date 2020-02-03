@@ -415,3 +415,398 @@ list.flatten
 val x = Vector(Some(1), None, Some(3), None)
 x.flatten
 
+// 10.16. Combining map and flatten with flatMap
+
+val bag = List("1", "2", "three", "4", "one hundred seventy five")
+def toInt(in: String): Option[Int] = {
+  try {
+    Some(Integer.parseInt(in.trim))
+  } catch {
+    case e: Exception => None
+  }
+}
+bag.flatMap(toInt).sum
+
+bag.map(toInt).flatten
+bag.map(toInt).flatten.sum
+bag.flatMap(toInt).sum
+
+bag.flatMap(toInt).filter(_ > 1)
+bag.flatMap(toInt).takeWhile(_ < 4)
+bag.flatMap(toInt).partition(_ > 3)
+
+subWords("then")
+def subWords(word: String) = List(word, word.tail, word.take(word.length-1))
+
+val words = List("band", "start", "then")
+words.map(subWords)
+words.map(subWords).flatten
+words.flatMap(subWords)
+
+// 10.17. Using filter to Filter a Collection
+
+val x = List.range(1, 10)
+val evens = x.filter(_ % 2 == 0)
+
+val fruits = Set("orange", "peach", "apple", "banana")
+val x = fruits.filter(_.startsWith("a"))
+val y = fruits.filter(_.length > 5)
+val list = "apple" :: "banana" :: 1 :: 2 :: Nil
+val strings = list.filter {
+  case s: String => true
+  case _ => false
+}
+
+def onlyStrings(a: Any) = a match {
+  case s: String => true
+  case _ => false
+}
+val strings = list.filter(onlyStrings)
+
+def getFileContentsWithoutBlanksComments(canonicalFilename: String): List[String] = {
+  io.Source
+    .fromFile(canonicalFilename)
+    .getLines
+    .toList
+    .filter(_.trim != "")
+    .filter(_.charAt(0) != '#')
+}
+
+// 10.18. Extracting a Sequence of Elements from a Collection
+
+val x = (1 to 10).toArray
+val y = x.drop(3)
+val y = x.dropWhile(_ < 6)
+val y = x.dropRight(4)
+val y = x.take(3)
+val y = x.takeWhile(_ < 5)
+val y = x.takeRight(3)
+val peeps = List("John", "Mary", "Jane", "Fred")
+peeps.slice(1, 3)
+
+val nums = (1 to 5).toArray
+nums.head
+nums.headOption
+nums.init
+nums.last
+nums.lastOption
+nums.tail
+
+// 10.19. Splitting Sequences into Subsets (groupBy, partition, etc.)
+
+val x = List(15, 10, 5, 8, 20, 12)
+val y = x.groupBy(_ > 10)
+val y = x.partition(_ > 10)
+val y = x.span(_ < 20)
+val y = x.splitAt(2)
+val (a,b) = x.partition(_ > 10)
+val groups = x.groupBy(_ > 10)
+val trues = groups(true)
+val falses = groups(false)
+val nums = (1 to 5).toArray
+nums.sliding(2).toList
+nums.sliding(2, 2).toList
+nums.sliding(2, 3).toList
+
+val listOfTuple2s = List((1, 2), ('a', 'b'))
+val x = listOfTuple2s.unzip
+val couples = List(("Kim", "Al"), ("Julia", "Terry"))
+val (women, men) = couples.unzip
+val women = List("Kim", "Julia")
+val men = List("Al", "Terry")
+val couples = women zip men
+
+// 10.20. Walking Through a Collection with the reduce and fold Methods
+
+val a = Array(12, 6, 15, 2, 20, 9)
+a.reduceLeft(_ + _)
+a.reduceLeft((x,y) => x + y)
+a.reduceLeft(_ * _)
+a.reduceLeft(_ min _)
+a.reduceLeft(_ max _)
+
+val findMax = (x: Int, y: Int) => {
+  val winner = x max y
+  println(s"compared $x to $y, $winner was larger")
+  winner
+}
+a.reduceLeft(findMax)
+
+val peeps = Vector("al", "hannah", "emily", "christina", "aleka")
+peeps.reduceLeft((x,y) => if (x.length > y.length) x else y)
+peeps.reduceLeft((x,y) => if (x.length < y.length) x else y)
+
+val a = Array(1, 2, 3)
+a.reduceLeft(_ + _)
+a.foldLeft(20)(_ + _)
+a.foldLeft(100)(_ + _)
+
+val divide = (x: Double, y: Double) => {
+  val result = x / y
+  println(s"divided $x by $y to yield $result")
+  result
+}
+val a = Array(1.0, 2.0, 3.0)
+a.reduceLeft(divide)
+a.reduceRight(divide)
+
+val product = (x: Int, y: Int) => {
+  val result = x * y
+  println(s"multiplied $x by $y to yield $result")
+  result
+}
+val a = Array(1, 2, 3)
+a.scanLeft(10)(product)
+
+val findMax = (x: Int, y: Int) => {
+  Thread.sleep(10)
+  val winner = x max y
+  println(s"compared $x to $y, $winner was larger")
+  winner
+}
+val a = Array.range(0, 50)
+a.par.reduce(findMax)
+
+// 10.21. Extracting Unique Elements from a Sequence
+
+val x = Vector(1, 1, 2, 3, 3, 4)
+val y = x.distinct
+val s = x.toSet
+
+class Person(firstName: String, lastName: String) {
+  override def toString = s"$firstName $lastName"
+  def canEqual(a: Any) = a.isInstanceOf[Person]
+  override def equals(that: Any): Boolean = that match {
+    case that: Person => that.canEqual(this) && this.hashCode == that.hashCode
+    case _ => false
+  }
+  override def hashCode: Int = {
+    val prime = 31
+    var result = 1
+    result = prime * result + lastName.hashCode;
+    result = prime * result + (if (firstName == null) 0 else firstName.hashCode)
+    return result
+  }
+}
+
+object Person {
+  def apply(firstName: String, lastName: String) =
+    new Person(firstName, lastName)
+}
+
+val dale1 = new Person("Dale", "Cooper")
+val dale2 = new Person("Dale", "Cooper")
+val ed = new Person("Ed", "Hurley")
+val list = List(dale1, dale2, ed)
+val uniques = list.distinct
+val list = List(dale1, dale2, ed)
+val uniquePeople = list.distinct
+
+// 10.22. Merging Sequential Collections
+
+val a = collection.mutable.ArrayBuffer(1, 2, 3)
+a ++= Seq(4, 5, 6)
+
+val a = Array(1, 2, 3)
+val b = Array(4, 5, 6)
+val c = a ++ b
+
+val a = Array(1, 2, 3, 4, 5)
+val b = Array(4, 5, 6, 7, 8)
+val c = a.intersect(b)
+val c = a.union(b)
+val c = a.union(b).distinct
+val c = a diff b
+val c = b diff a
+Array.concat(a, b)
+val a = List(1, 2, 3, 4)
+val b = List(4, 5, 6, 7)
+val c = a ::: b
+
+val a = Array(1, 2, 3, 11, 4, 12, 4, 5)
+val b = Array(6, 7, 4, 5)
+val c = a.toSet diff b.toSet
+val complement = c ++ d
+
+val c = a.toSet -- b.toSet
+val d = b.toSet -- a.toSet
+val i = a.intersect(b)
+val c = a.toSet -- i.toSet
+val d = b.toSet -- i.toSet
+
+// 10.23. Merging Two Sequential Collections into Pairs with zip
+
+val women = List("Wilma", "Betty")
+val men = List("Fred", "Barney")
+val couples = women zip men
+for ((wife, husband) <- couples) {
+  println(s"$wife is married to $husband")
+}
+val couplesMap = couples.toMap
+
+val products = Array("breadsticks", "pizza", "soft drink")
+val prices = Array(4)
+val productsWithPrice = products.zip(prices)
+val (a, b) = productsWithPrice.unzip
+
+// 10.24. Creating a Lazy View on a Collection
+
+1 to 100
+(1 to 100).view
+val view = (1 to 100).view
+val x = view.force
+(1 to 100).foreach(println)
+(1 to 100).view.foreach(println)
+(1 to 100).map { _ * 2 }
+(1 to 100).view.map { _ * 2 }
+
+val x = (1 to 1000).view.map { e =>
+  Thread.sleep(10)
+  e * 2
+}
+
+val l = List(1, 2, 3)
+l.reverse
+l.view.reverse
+
+val arr = (1 to 10).toArray
+val view = arr.view.slice(2, 5)
+arr(2) = 42
+view.foreach(println)
+
+view(0) = 10
+view(1) = 20
+view(2) = 30
+arr
+
+// 10.25. Populating a Collection with a Range
+
+Array.range(1, 5)
+List.range(0, 10)
+Vector.range(0, 10, 2)
+
+val a = (0 until 10).toArray
+val list = 1 to 10 by 2 toList
+val list = (1 to 10).by(2).toList
+val set = Set.range(0, 5)
+val set = (0 until 10 by 2).toSet
+val letters = ('a' to 'f').toList
+val letters = ('a' to 'f').by(2).toList
+for (i <- 1 until 10 by 2) println(i)
+
+val map = (1 to 5).map(_ * 2.0)
+val map = (1 to 5).map(e => (e, e))
+val map = (1 to 5).map(e => (e, e)).toMap
+
+// 10.26. Creating and Using Enumerations
+
+package com.acme.app {
+  object Margin extends Enumeration {
+    type Margin = Value
+    val TOP, BOTTOM, LEFT, RIGHT = Value
+  }
+}
+
+object Main extends App {
+  import com.acme.app.Margin._
+  // use an enumeration value in a test
+  var currentMargin = TOP
+
+  // later in the code ...
+  if (currentMargin == TOP) println("working on Top")
+
+  // print all the enumeration values
+  import com.acme.app.Margin
+  Margin.values foreach println
+}
+
+// a much "heavier" approach
+package com.acme.app {
+  trait Margin
+  case object TOP extends Margin
+  case object RIGHT extends Margin
+  case object BOTTOM extends Margin
+  case object LEFT extends Margin
+}
+
+// 10.27. Tuples, for When You Just Need a Bag of Things
+
+val d = ("Debi", 95)
+case class Person(name: String)
+val t = (3, "Three", new Person("Al"))
+t._1
+t._2
+t._3
+val (x, y, z) = (3, "Three", new Person("Al"))
+val (x, y, _) = t
+val (x, _, _) = t
+val (x, _, z) = t
+val a = ("AL", "Alabama")
+val b = "AL" -> "Alabama"
+val c = ("AL" -> "Alabama")
+c.getClass
+val map = Map("AL" -> "Alabama")
+
+val x = ("AL" -> "Alabama")
+val it = x.productIterator
+for (e <- it) println(e)
+for (e <- it) println(e)
+
+val t = ("AL", "Alabama")
+t.productIterator.toArray
+
+// 10.28. Ssorting a Collection
+
+val a = List(10, 5, 8, 1, 7).sorted
+val b = List("banana", "pear", "apple", "orange").sorted
+List(10, 5, 8, 1, 7).sortWith(_ < _)
+List(10, 5, 8, 1, 7).sortWith(_ > _)
+List("banana", "pear", "apple", "orange").sortWith(_ < _)
+List("banana", "pear", "apple", "orange").sortWith(_ > _)
+List("banana", "pear", "apple", "orange").sortWith(_.length < _.length)
+List("banana", "pear", "apple", "orange").sortWith(_.length > _.length)
+def sortByLength(s1: String, s2: String) = {
+  println("comparing %s and %s".format(s1, s2))
+  s1.length > s2.length
+}
+List("banana", "pear", "apple").sortWith(sortByLength)
+
+class Person(var name: String) {
+  override def toString = name
+}
+val ty = new Person("Tyler")
+val al = new Person("Al")
+val paul = new Person("Paul")
+val dudes = List(ty, al, paul)
+// dudes.sorted
+val sortedDudes = dudes.sortWith(_.name < _.name)
+val sortedDudes = dudes.sortWith(_.name > _.name)
+
+class Person(var name: String) extends Ordered[Person] {
+  override def toString = name
+  // return 0 if the same, negative if this < that, positive if this > that
+  // def compare (that: Person) = this.name.compare(that.name)
+  def compare(that: Person) = {
+    if (this.name == that.name) 0
+    else if (this.name > that.name) 1
+    else -1
+  }
+}
+
+val ty = new Person("Tyler")
+val al = new Person("Al")
+if (al > ty) println("Al") else println("Tyler")
+
+// 10.29. Converting a Collection to a String with mkString
+
+val a = Array("apple", "banana", "cherry")
+a.mkString
+a.mkString(" ")
+a.mkString(", ")
+a.mkString("[", ", ", "]")
+
+val a = Array(Array("a", "b"), Array("c", "d"))
+a.flatten.mkString(", ")
+
+val v = Vector("apple", "banana", "cherry")
+v.toString
