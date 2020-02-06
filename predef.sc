@@ -15,7 +15,8 @@ interp.load.ivy(
 // -----------------------------------------------------------------------------
 val shellSession = ammonite.shell.ShellSession()
 import shellSession._
-import ammonite.ops._
+//resource has conflict with scala-arm
+import ammonite.ops.{resource => _, _}
 import ammonite.shell._
 ammonite.shell.Configure(interp, repl, wd)
 

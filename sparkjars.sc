@@ -1,7 +1,7 @@
 /**
  * ## Load jars ##
  */
-import ammonite.ops._
+import ammonite.ops.{Path, ls}
 
 // e.g. /opt/.ivy2/local/sh.almond/ammonite-spark_2.12/0.8.0+16-fc59944f-SNAPSHOT/jars/ammonite-spark_2.12.jar => ammonite-spark
 val toPackageName = (jarPath: Path) => jarPath.baseName.split("-").dropRight(1).mkString("-")
