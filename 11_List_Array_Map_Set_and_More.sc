@@ -297,3 +297,281 @@ states.remove("AK")
 states
 states.clear
 states
+
+// 11.15. Adding, Updating, and Removing Elements with Immutable Maps
+
+val a = Map("AL" -> "Alabama")
+val b = a + ("AK" -> "Alaska")
+val c = b + ("AR" -> "Arkansas", "AZ" -> "Arizona")
+val d = c + ("AR" -> "banana")
+val e = d - "AR"
+val f = e - "AZ" - "AL"
+
+var x = Map("AL" -> "Alabama")
+x += ("AK" -> "Alaska")
+x += ("AR" -> "Arkansas", "AZ" -> "Arizona")
+x += ("AR" -> "banana")
+x -= "AR"
+x = Map("CO" -> "Colorado")
+x("AL") = "foo"; x
+
+// 11.16. Accessing Map Values
+
+val states = Map("AL" -> "Alabama", "AK" -> "Alaska", "AZ" -> "Arizona")
+val az = states("AZ")
+val s = states("FOO")
+val states = Map("AL" -> "Alabama").withDefaultValue("Not found")
+val s = states.getOrElse("FOO", "No such state")
+val az = states.get("AZ")
+val za = states.get("FOO")
+
+// 11.17. Traversing a Map
+
+val ratings = Map("Lady in the Water" -> 3.0, "Snakes on a Plane" -> 4.0, "You, Me and Dupree" -> 3.5)
+for ((k, v) <- ratings) println(s"key: $k, value: $v")
+
+ratings.foreach {
+  case (movie, rating) => println(s"key: $movie, value: $rating")
+}
+
+ratings.foreach(x => println(s"key: ${x._1}, value: ${x._2}"))
+ratings.keys.foreach((movie) => println(movie))
+ratings.keys.foreach(println)
+ratings.values.foreach((rating) => println(rating))
+var x = collection.mutable.Map(1 -> "a", 2 -> "b")
+val y = x.mapValues(_.toUpperCase)
+val map = Map(1 -> 10, 2 -> 20, 3 -> 30)
+val newMap = map.transform((k, v) => k + v)
+
+// 11.18. Getting the Keys or Values from a Map
+
+val states = Map("AK" -> "Alaska", "AL" -> "Alabama", "AR" -> "Arkansas")
+states.keySet
+states.keys
+states.keysIterator
+states.values
+states.valuesIterator
+
+// 11.19. Reversing Keys and Values
+
+val map = Map(1 -> 10, 2 -> 20, 3 -> 30)
+val reverseMap = for ((k,v) <- map) yield (v, k)
+val products = Map("Breadsticks" -> "$5", "Pizza" -> "$10", "Wings" -> "$5")
+val reverseMap = for ((k,v) <- products) yield (v, k)
+
+// 11.20. Testing for the Existence of a Key or Value in a Map
+
+val states = Map("AK" -> "Alaska", "IL" -> "Illinois", "KY" -> "Kentucky")
+if (states.contains("FOO")) println("Found foo") else println("No foo")
+states.valuesIterator.exists(_.contains("ucky"))
+states.valuesIterator.exists(_.contains("yucky"))
+states.valuesIterator
+
+// 11.21. Filtering a Map
+
+var x = collection.mutable.Map(1 -> "a", 2 -> "b", 3 -> "c")
+x.retain((k, v) => k > 1)
+x
+
+x.transform((k,v) => v.toUpperCase)
+x
+
+val x = Map(1 -> "a", 2 -> "b", 3 -> "c")
+val y = x.filterKeys(_ > 2)
+
+def only1(i: Int) = if (i == 1) true else false
+val x = Map(1 -> "a", 2 -> "b", 3 -> "c")
+val y = x.filterKeys(only1)
+
+var m = Map(1 -> "a", 2 -> "b", 3 -> "c")
+val newMap = m.filterKeys(Set(2, 3))
+var m = Map(1 -> "a", 2 -> "b", 3 -> "c")
+m.filter((t) => t._1 > 1)
+m.filter((t) => t._2 == "c")
+m.take(2)
+
+// 11.22. Sorting an Existing Map by Key or Value
+
+val grades = Map("Kim" -> 90, "Al" -> 85, "Melissa" -> 95, "Emily" -> 91, "Hannah" -> 92)
+import scala.collection.immutable.ListMap
+ListMap(grades.toSeq.sortBy(_._1): _*)
+ListMap(grades.toSeq.sortWith(_._1 < _._1): _*)
+ListMap(grades.toSeq.sortWith(_._1 > _._1): _*)
+ListMap(grades.toSeq.sortBy(_._2): _*)
+ListMap(grades.toSeq.sortWith(_._2 < _._2): _*)
+ListMap(grades.toSeq.sortWith(_._2 > _._2): _*)
+val x = collection.mutable.LinkedHashMap(grades.toSeq.sortBy(_._1): _*)
+x.foreach(println)
+val grades = Map("Kim" -> 90, "Al" -> 85, "Melissa" -> 95, "Emily" -> 91, "Hannah" -> 92)
+
+val x = grades.toSeq.sortBy(_._1)
+ListMap(x: _*)
+
+def printAll(strings: String*) {
+  strings.foreach(println)
+}
+val fruits = List("apple", "banana", "cherry")
+printAll(fruits: _*)
+
+// 11.23. Finding the Largest Key or Value in a Map
+
+val grades = Map("Al" -> 80, "Kim" -> 95, "Teri" -> 85, "Julia" -> 90)
+grades.max
+grades.keysIterator.max
+grades.keysIterator.reduceLeft((x, y) => if (x > y) x else y)
+grades.keysIterator.reduceLeft((x, y) => if (x.length > y.length) x else y)
+grades.valuesIterator.max
+grades.valuesIterator.reduceLeft(_ max _)
+grades.valuesIterator.reduceLeft((x, y) => if (x > y) x else y)
+
+// 11.24. Adding Elements to a Set
+
+var set = scala.collection.mutable.Set[Int]()
+set += 1
+set += (2, 3)
+set += 2
+set ++= Vector(4, 5)
+set.add(6)
+set.add(5)
+set.contains(5)
+var set = scala.collection.mutable.Set(1, 2, 3)
+val s1 = Set(1, 2)
+val s2 = s1 + 3
+val s3 = s2 + (4, 5)
+val s4 = s3 ++ List(6, 7)
+var set = Set(1, 2, 3)
+set += 4
+set
+
+// 11.25. Deleting Elements from Sets
+
+var set = scala.collection.mutable.Set(1, 2, 3, 4, 5)
+set -= 1
+set -= (2, 3)
+set --= Array(4, 5)
+var set = scala.collection.mutable.Set(1, 2, 3, 4, 5)
+set.retain(_ > 2)
+set
+var set = scala.collection.mutable.Set(1, 2, 3, 4, 5)
+set.clear
+var set = scala.collection.mutable.Set(1, 2, 3, 4, 5)
+set.remove(2)
+set
+set.remove(40)
+
+val s1 = Set(1, 2, 3, 4, 5, 6)
+val s2 = s1 - 1
+val s3 = s2 - (2, 3)
+val s4 = s3 -- Array(4, 5)
+val s1 = Set(1, 2, 3, 4, 5, 6)
+val s2 = s1.filter(_ > 3)
+val firstTwo = s1.take(2)
+
+// 11.26. Using Sortable Sets
+
+val s = scala.collection.SortedSet(10, 4, 8, 2)
+val s = scala.collection.SortedSet("cherry", "kiwi", "apple")
+var s = scala.collection.mutable.LinkedHashSet(10, 4, 8, 2)
+
+{
+  class Person(var name: String)
+  import scala.collection.SortedSet
+  val aleka = new Person("Aleka")
+  val christina = new Person("Christina")
+  val molly = new Person("Molly")
+  val tyler = new Person("Tyler")
+
+  // this won't work
+  val s = SortedSet(molly, tyler, christina, aleka)
+}
+
+{
+  class Person(var name: String) extends Ordered[Person] {
+    override def toString = name
+
+    // return 0 if the same, negative if this < that, positive if this > that
+    def compare(that: Person) = {
+      if (this.name == that.name) 0
+      else if (this.name > that.name) 1
+      else -1
+    }
+  }
+
+  val aleka = new Person("Aleka")
+  val christina = new Person("Christina")
+  val molly = new Person("Molly")
+  val tyler = new Person("Tyler")
+
+  val s = SortedSet(molly, tyler, christina, aleka)
+}
+
+// 11.27. Using a Queue
+
+import scala.collection.mutable.Queue
+var ints = Queue[Int]()
+var fruits = Queue[String]()
+var q = Queue[Person]()
+
+val q = Queue(1, 2, 3)
+import scala.collection.mutable.Queue
+var q = new Queue[String]
+q += "apple"
+q += ("kiwi", "banana")
+q ++= List("cherry", "coconut")
+q.enqueue("pineapple")
+val next = q.dequeue
+q
+val next = q.dequeue
+q
+q.dequeueFirst(_.startsWith("b"))
+q
+q.dequeueAll(_.length > 6)
+q
+
+// 11.28. Using a Stack
+
+import scala.collection.mutable.Stack
+var ints = Stack[Int]()
+var fruits = Stack[String]()
+case class Person(var name: String)
+var people = Stack[Person]()
+val ints = Stack(1, 2, 3)
+
+var fruits = Stack[String]()
+fruits.push("apple")
+fruits.push("banana")
+fruits.push("coconut", "orange", "pineapple")
+val next = fruits.pop
+fruits
+fruits.top
+fruits
+fruits.size
+fruits.isEmpty
+fruits.clear
+fruits
+
+// 11.29. Using a Range
+
+1 to 10
+1 until 10
+1 to 10 by 2
+'a' to 'c'
+val x = (1 to 10).toList
+val x = (1 to 10).toArray
+val x = (1 to 10).toSet
+val x = Array.range(1, 10)
+val x = Vector.range(1, 10)
+val x = List.range(1, 10)
+val x = List.range(0, 10, 2)
+val x = collection.mutable.ArrayBuffer.range('a', 'd')
+for (i <- 1 to 3) println(i)
+
+val x = (1 to 5).map { e =>
+  (e + 1.1) * 2
+}
+val x = List.tabulate(5)(_ + 1)
+val x = List.tabulate(5)(_ + 2)
+val x = Vector.tabulate(5)(_ * 2)
+
+List(1, 2, 3, 4).sliding(2, 2).map { case List(k, v) => k -> v} toMap
+List(1, 2, 3, 4).grouped(2).map { case List(k, v) => k -> v} toMap
