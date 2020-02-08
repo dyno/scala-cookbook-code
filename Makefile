@@ -51,3 +51,13 @@ install-sdkman: ~/.sdkman
 	  curl -s "https://get.sdkman.io" | bash; \
 	fi                                        \
 	# END
+
+# https://alvinalexander.com/scala/sbt-how-specify-main-method-class-to-run-in-project
+
+.PHONY: sbt-run
+sbt-run:
+	sbt run
+
+.PHONY: sbt-run-main
+sbt-run-main:
+	sbt "runMain hello.Hello"

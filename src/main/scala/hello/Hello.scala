@@ -1,3 +1,5 @@
+package hello
+
 import akka.actor.Actor
 import akka.actor.ActorSystem
 import akka.actor.Props
@@ -9,7 +11,7 @@ class HelloActor extends Actor {
   }
 }
 
-object Main extends App {
+object Hello extends App {
   // an actor needs an ActorSystem
   val system = ActorSystem("HelloSystem")
 
