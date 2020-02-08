@@ -1,4 +1,4 @@
-import ammonite.ops._
+import ammonite.ops.{Path, read, write, pwd, ls}
 import scala.xml.XML
 
 def getTocMap(tocFile: String): Map[String, String] = {
@@ -20,13 +20,20 @@ def expandToc(p: Path, tocMap: Map[String, String]): Unit = {
   val updated = read(p).lines
     .map {
       case pattern(section) => s"// $section ${tocMap(section)}"
-      case line             => line
+      case line => line
     }
     .mkString("\n")
   write.over(p, updated)
 }
 
-// ## main ##
-val tocMap = getTocMap("toc.xml")
-val scList = ls ! pwd |? (_.ext == "sc")
-scList.foreach(expandToc(_, tocMap))
+@main
+def main(showTopicOnly: Boolean = true): Unit = {
+
+  val tocMap = getTocMap("toc.xml")
+  tocMap.toSeq.sortBy(_._1.split('.').map(_.toInt).reduce(_ * 100 + _)).foreach { case (n, t) => println(s"$n. $t") }
+
+  if (showTopicOnly) return
+
+  val scList = ls ! pwd |? (_.ext == "sc")
+  scList.foreach(expandToc(_, tocMap))
+}
