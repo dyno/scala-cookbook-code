@@ -159,10 +159,40 @@ object ParseJsonArray extends App {
   }
 }
 
+ParseJsonArray.main(Array())
+
 // 15.5. Creating Web Services with Scalatra
 // 15.6. Replacing XML Servlet Mappings with Scalatra Mounts
 // 15.7. Accessing Scalatra Web Service GET Parameters
+
 // 15.8. Accessing POST Request Data with Scalatra
+import $ivy.`net.liftweb::lift-json:3.4+`
+import net.liftweb.json._
+import net.liftweb.json.Serialization.write
+import $ivy.`org.apache.httpcomponents:httpclient:4.5.11`
+import org.apache.http.client.methods.HttpPost
+import org.apache.http.entity.StringEntity
+import org.apache.http.impl.client.DefaultHttpClient
+
+class Stock(var symbol: String, var price: Double)
+
+object PostTester extends App {
+  // create a Stock and convert it to a JSON string
+  val stock = new Stock("AAPL", 500.00)
+  implicit val formats = DefaultFormats
+  val stockAsJsonString = write(stock)
+  // add the JSON string as a StringEntity to a POST request
+  val post = new HttpPost("http://localhost:8080/stocks/saveJsonStock")
+  post.setHeader("Content-type", "application/json")
+  post.setEntity(new StringEntity(stockAsJsonString))
+  // send the POST request
+  val response = (new DefaultHttpClient).execute(post)
+  // print the response
+  println("--- HEADERS ---")
+  response.getAllHeaders.foreach(arg => println(arg))
+}
+
+PostTester.main(Array())
 // 15.9. Creating a Simple GET Request Client
 // 15.10. Sending JSON Data to a POST URL
 // 15.11. Getting URL Headers

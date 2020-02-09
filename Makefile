@@ -70,3 +70,6 @@ sbt-run-main:
 scalatra-init: /usr/local/bin/g8
 	# http://scalatra.org/getting-started/first-project.html
 	g8 scalatra/scalatra-sbt
+
+post-stock:
+	http localhost:8080/stocks/saveJsonStock symbol=AAPL price:=120
