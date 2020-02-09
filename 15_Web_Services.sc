@@ -334,6 +334,38 @@ HttpJsonPostTest.main(Array())
 
 // 15.11. Getting URL Headers
 
+import $ivy.`org.apache.httpcomponents:httpclient:4.5.11`
+import org.apache.http.client.methods.HttpGet
+import org.apache.http.impl.client.DefaultHttpClient
+object FetchUrlHeaders extends App {
+  val get = new HttpGet("http://alvinalexander.com/")
+  val client = new DefaultHttpClient
+  val response = client.execute(get)
+  response.getAllHeaders.foreach(header => println(header))
+}
+
+FetchUrlHeaders.main(Array())
+
 // 15.12. Setting URL Headers When Sending a Request
+
+import $ivy.`org.apache.httpcomponents:httpclient:4.5.11`
+import org.apache.http.client.methods.HttpGet
+import org.apache.http.impl.client.DefaultHttpClient
+object SetUrlHeaders extends App {
+  val url = "http://localhost:9001/baz"
+  val httpGet = new HttpGet(url)
+  // set the desired header values
+  httpGet.setHeader("KEY1", "VALUE1")
+  httpGet.setHeader("KEY2", "VALUE2")
+  // execute the request
+  val client = new DefaultHttpClient
+  client.execute(httpGet)
+  client.getConnectionManager.shutdown
+}
+
+SetUrlHeaders.main(Array())
+
 // 15.13. Creating a GET Request Web Service with the Play Framework
+
+
 // 15.14. POSTing JSON Data to a Play Framework Web Service
