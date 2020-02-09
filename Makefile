@@ -61,3 +61,12 @@ sbt-run:
 .PHONY: sbt-run-main
 sbt-run-main:
 	sbt "runMain hello.Hello"
+
+
+/usr/local/bin/g8:
+	# http://www.foundweekends.org/giter8/setup.html
+	brew install giter8
+
+scalatra-init: /usr/local/bin/g8
+	# http://scalatra.org/getting-started/first-project.html
+	g8 scalatra/scalatra-sbt
