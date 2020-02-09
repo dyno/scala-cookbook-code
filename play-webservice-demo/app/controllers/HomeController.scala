@@ -27,6 +27,13 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents) e
 
   def getStock = Action {
     val stock = Stock("GOOG", 650.0)
-    Ok (Json.toJson(stock))
+    Ok(Json.toJson(stock))
+  }
+
+  def saveStock = Action { request =>
+    val json = request.body.asJson.get
+    val stock = json.as[Stock]
+    println(stock)
+    Ok
   }
 }
