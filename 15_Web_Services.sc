@@ -193,9 +193,147 @@ object PostTester extends App {
 }
 
 PostTester.main(Array())
+
 // 15.9. Creating a Simple GET Request Client
+
+/**
+ * Returns the text (content) from a URL as a String.
+ * Warning: This method does not time out when the service is non-responsive.
+ */
+@throws(classOf[java.io.IOException])
+def get(url: String) = scala.io.Source.fromURL(url).mkString
+val r = get("http://localhost:8080/hello")
+
+/**
+* Returns the text (content) from a REST URL as a String.
+* Inspired by http://matthewkwong.blogspot.com/2009/09/scala-scalaiosource-fromurl-blockshangs.html
+* and http://alvinalexander.com/blog/post/java/how-open-url-read-contents-httpurl-connection-java
+*
+* The `connectTimeout` and `readTimeout` comes from the Java URLConnection
+* class Javadoc.
+* @param url The full URL to connect to.
+* @param connectTimeout Sets a specified timeout value, in milliseconds,
+* to be used when opening a communications link to the resource referenced
+* by this URLConnection. If the timeout expires before the connection can
+* be established, a java.net.SocketTimeoutException
+* is raised. A timeout of zero is interpreted as an infinite timeout.
+* Defaults to 5000 ms.
+* @param readTimeout If the timeout expires before there is data available
+* for read, a java.net.SocketTimeoutException is raised. A timeout of zero
+* is interpreted as an infinite timeout. Defaults to 5000 ms.
+* @param requestMethod Defaults to "GET". (Other methods have not been tested.) *
+* @example get("http://www.example.com/getInfo")
+* @example get("http://www.example.com/getInfo", 5000)
+* @example get("http://www.example.com/getInfo", 5000, 5000)
+*/
+
+@throws(classOf[java.io.IOException])
+@throws(classOf[java.net.SocketTimeoutException])
+def get(url: String, connectTimeout: Int = 5000, readTimeout: Int = 5000, requestMethod: String = "GET") = {
+  import java.net.{URL, HttpURLConnection}
+  val connection = (new URL(url)).openConnection.asInstanceOf[HttpURLConnection]
+  connection.setConnectTimeout(connectTimeout)
+  connection.setReadTimeout(readTimeout)
+  connection.setRequestMethod(requestMethod)
+  val inputStream = connection.getInputStream
+  val content = scala.io.Source.fromInputStream(inputStream).mkString
+  if (inputStream != null) inputStream.close
+  content
+}
+val r = get("http://localhost:8080/hello")
+
+try {
+  val content = get("http://localhost:8080/waitForever")
+  println(content)
+} catch {
+  case ioe: java.io.IOException => // handle this
+    println(ioe)
+  case ste: java.net.SocketTimeoutException => // handle this
+    println(ste)
+}
+
+// Using the Apache HttpClient
+
+import java.io._
+import org.apache.http.{HttpEntity, HttpResponse}
+import org.apache.http.client._
+import org.apache.http.client.methods.HttpGet
+import org.apache.http.impl.client.DefaultHttpClient
+import scala.collection.mutable.StringBuilder
+import scala.xml.XML
+import org.apache.http.params.HttpConnectionParams
+import org.apache.http.params.HttpParams
+
+def buildHttpClient(connectionTimeout: Int, socketTimeout: Int): DefaultHttpClient = {
+  val httpClient = new DefaultHttpClient
+  val httpParams = httpClient.getParams
+  HttpConnectionParams.setConnectionTimeout(httpParams, connectionTimeout)
+  HttpConnectionParams.setSoTimeout(httpParams, socketTimeout)
+  httpClient.setParams(httpParams)
+  httpClient
+}
+
+/**
+ * Returns the text (content) from a REST URL as a String.
+ * Returns a blank String if there was a problem.
+ * This function will also throw exceptions if there are problems trying
+ * to connect to the url. *
+ * @param url A complete URL, such as "http://foo.com/bar"
+ * @param connectionTimeout The connection timeout, in ms.
+ * @param socketTimeout The socket timeout, in ms.
+ */
+def getRestContent(url: String, connectionTimeout: Int, socketTimeout: Int): String = {
+  val httpClient = buildHttpClient(connectionTimeout, socketTimeout)
+  val httpResponse = httpClient.execute(new HttpGet(url))
+  val entity = httpResponse.getEntity
+  var content = ""
+  if (entity != null) {
+    val inputStream = entity.getContent
+    content = scala.io.Source.fromInputStream(inputStream).getLines.mkString
+    inputStream.close
+  }
+  httpClient.getConnectionManager.shutdown
+  content
+}
+
+getRestContent("http://localhost:8080/hello", 1000, 500)
+
 // 15.10. Sending JSON Data to a POST URL
+
+import java.io._
+import java.util.ArrayList
+import $ivy.`org.apache.httpcomponents:httpclient:4.5.11`
+import org.apache.commons._
+import org.apache.http._
+import org.apache.http.client._
+import org.apache.http.client.methods.HttpPost
+import org.apache.http.impl.client.DefaultHttpClient
+import org.apache.http.message.BasicNameValuePair
+import org.apache.http.client.entity.UrlEncodedFormEntity
+import $ivy.`com.google.code.gson:gson:2.8.6`
+import com.google.gson.Gson
+
+case class Person(firstName: String, lastName: String, age: Int)
+object HttpJsonPostTest extends App {
+  // create our object as a json string
+  val spock = new Person("Leonard", "Nimoy", 82)
+  val spockAsJson = new Gson().toJson(spock)
+  // add name value pairs to a post object
+  val post = new HttpPost("http://localhost:8080/posttest")
+  val nameValuePairs = new ArrayList[NameValuePair]()
+  nameValuePairs.add(new BasicNameValuePair("JSON", spockAsJson))
+  post.setEntity(new UrlEncodedFormEntity(nameValuePairs))
+  // send the post request
+  val client = new DefaultHttpClient
+  val response = client.execute(post)
+  println("--- HEADERS ---")
+  response.getAllHeaders.foreach(arg => println(arg))
+}
+
+HttpJsonPostTest.main(Array())
+
 // 15.11. Getting URL Headers
+
 // 15.12. Setting URL Headers When Sending a Request
 // 15.13. Creating a GET Request Web Service with the Play Framework
 // 15.14. POSTing JSON Data to a Play Framework Web Service
