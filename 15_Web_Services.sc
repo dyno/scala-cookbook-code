@@ -300,6 +300,9 @@ getRestContent("http://localhost:8080/hello", 1000, 500)
 
 // 15.10. Sending JSON Data to a POST URL
 
+// FIXME: looks like this does not get the same results as httpie.
+// http POST localhost:8080/posttest <<<"{\"firstName\":\"Leonard\",\"lastName\":\"Nimoy\",\"age\":82}"
+
 import java.io._
 import java.util.ArrayList
 import $ivy.`org.apache.httpcomponents:httpclient:4.5.11`
