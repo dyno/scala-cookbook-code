@@ -93,7 +93,44 @@ public interface Hello extends java.rmi.Remote {
 
 // 17.4. Using the Spring Framework
 
+// see ./scalaspring
+
 // 17.5. Annotating varargs Methods
+
+package varargs
+
+import scala.annotation.varargs
+class Printer {
+  @varargs def printAll(args: String*) {
+    args.foreach(print)
+    println
+  }
+}
+
+// Main.java
+public class Main {
+  public static void main(String[] args) {
+    Printer p = new Printer();
+    p.printAll("Hello");
+    p.printAll("Hello, ", "world");
+  }
+}
+
 // 17.6. When Java Code Requires JavaBeans
+
+import scala.bean.BeanProperty
+class Person(@BeanProperty var firstName: String, @BeanProperty var lastName: String) {
+  override def toString = s"Person: $firstName $lastName"
+}
+
+import scala.bean.BeanProperty
+class EmailAccount {
+  @BeanProperty var username: String = ""
+  @BeanProperty var password: String = ""
+  override def toString = s"Email Account: ($username, $password)"
+}
+
+// scalajavabean/
+
 // 17.7. Wrapping Traits with Implementations
 //
