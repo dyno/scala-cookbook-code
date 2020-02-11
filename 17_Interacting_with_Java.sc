@@ -56,8 +56,43 @@ val sum3 = sum(bufferAsJavaList(ListBuffer(1,2,3)))
 
 // 17.2. Add Exception Annotations to Scala Methods to Work with Java
 
+// scala
+class Thrower {
+  @throws(classOf[Exception])
+  def exceptionThrower {
+    throw new Exception("Exception!")
+  }
+}
+
+// multiple exceptions
+@throws(classOf[IOException])
+@throws(classOf[LineUnavailableException])
+@throws(classOf[UnsupportedAudioFileException])
+def playSoundFileWithJavaAudio {
+  // exception throwing code here ...
+}
+
+
 // 17.3. Using @SerialVersionUID and Other Annotations
+
+// scala
+// deprecated
+@remote trait Hello {
+  def sayHello(): String
+}
+
+// the new way
+@throws[java.rmi.RemoteException]
+trait Hello extends java.rmi.Remote {
+}
+
+// java
+public interface Hello extends java.rmi.Remote {
+  String sayHello() throws java.rmi.RemoteException;
+}
+
 // 17.4. Using the Spring Framework
+
 // 17.5. Annotating varargs Methods
 // 17.6. When Java Code Requires JavaBeans
 // 17.7. Wrapping Traits with Implementations
