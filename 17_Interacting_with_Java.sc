@@ -133,4 +133,14 @@ class EmailAccount {
 // scalajavabean/
 
 // 17.7. Wrapping Traits with Implementations
-//
+
+// scala
+package foo
+// the original trait
+trait MathTrait {
+  defsum(x: Int, y: Int) = x + y
+}
+// the wrapper class
+class MathTraitWrapper extends MathTrait
+
+// wrappingtrait/
