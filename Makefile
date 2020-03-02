@@ -16,6 +16,14 @@ toc.xml:
 update-toc: toc.xml
 	amm ReplaceToc.sc
 
+UNAME = $(shell uname -s)
+ifeq ($(UNAME),Linux)
+COUSIER_POSTFIX := linux
+else ifeq ($(UNAME),Darwin)
+COUSIER_POSTFIX := macos
+else
+  $(error $(UNAME) is not supported.)
+endif
 
 .PHONY: amm
 amm: bin/coursier
@@ -26,7 +34,7 @@ amm: bin/coursier
 bin/coursier:
 	@echo "-- install [coursier](https://get-coursier.io/docs/cli-overview.html#installation)"
 	mkdir -p bin
-	curl -L -o bin/coursier https://git.io/coursier
+	curl -L -o bin/coursier https://git.io/coursier-cli-$(COUSIER_POSTFIX)
 	chmod +x bin/coursier
 
 # https://api.sdkman.io/2/candidates/java/Darwin/versions/list?installed=

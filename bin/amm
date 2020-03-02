@@ -10,6 +10,6 @@ fi
 
 set -o xtrace
 
-java -Xmx4096m -XX:+UseG1GC $JAVA_OPTS \
-  -jar "$(command -v coursier)" launch "com.lihaoyi:ammonite_${scala_version}:${amm_version}" \
+bin/coursier launch --java-opt=-Xmx4096m --java-opt=-XX:+UseG1GC \
+  "com.lihaoyi:ammonite_${scala_version}:${amm_version}" \
   -M ammonite.Main -- "$@"
