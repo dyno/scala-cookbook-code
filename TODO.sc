@@ -20,3 +20,5 @@ a.zipAll(b, -1, -1).map { case (a, b) => a.compare(b) }.find(_ != 0)
 /**
 * try requests and ujson http://www.lihaoyi.com/post/HowtoworkwithHTTPJSONAPIsinScala.html
 */
+
+// https://docs.scala-lang.org/overviews/core/string-interpolation.html

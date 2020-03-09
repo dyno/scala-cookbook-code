@@ -1,0 +1,7 @@
+spark-*
+parquet
+metastore_db
+census_stats.txt
+compatPost.sc
+spark-*
+hadoop-*
