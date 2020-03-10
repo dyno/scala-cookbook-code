@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [[ "$SPARK_RELEASE" =~ scala-2\.12 ]]; then
+  scala_version=${SCALA_VERSION:-2.12.8}
+  amm_version=${AMMONITE_VERSION:-2.0.4+}
+else
+  scala_version=${SCALA_VERSION:-2.11.8}
+  amm_version=${AMMONITE_VERSION:-1.6.7}
+fi
+
+set -x
+bin/coursier launch --java-opt=-Xmx10240m --java-opt=-XX:+UseG1GC \
+  "com.lihaoyi:ammonite_${scala_version}:${amm_version}" \
+  -M ammonite.Main -- "$@"
