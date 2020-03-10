@@ -31,7 +31,7 @@ Seq(libModulePaths, homeModulePaths).find(_.nonEmpty) match {
     modulePaths.foreach { module =>
       log(s"loading $module")
       interp.load.module(module)
-      log(s"loaded $module")
+      log(s"loaded  $module")
     }
   case _ =>
 }

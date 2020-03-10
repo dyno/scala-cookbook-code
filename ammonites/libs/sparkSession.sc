@@ -1,9 +1,10 @@
 import ammonite.ops.{pwd, RelPath}
 import pprint.log
 
-log("loading compat.sc")
-interp.load.module(pwd / RelPath("libs/compat.sc"))
-log("loaded compat.sc")
+compatLib = pwd / RelPath("libs/compat.sc")
+log(s"loading $compatLib")
+interp.load.module()
+log(s"loaded  $compatLib")
 
 @
 import $exec.`compatPost`
