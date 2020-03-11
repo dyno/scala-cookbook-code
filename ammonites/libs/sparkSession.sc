@@ -1,12 +1,3 @@
-import ammonite.ops.{pwd, RelPath}
-import pprint.log
-
-val compatLib = pwd / RelPath("libs/compat.sc")
-log(s"loading $compatLib")
-interp.load.module(compatLib)
-log(s"loaded  $compatLib")
-
-@
 import $exec.`compatPost`
 
 // https://github.com/alexarchambault/ammonite-spark#compatibility

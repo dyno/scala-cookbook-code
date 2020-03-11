@@ -20,9 +20,10 @@ val (compatLib, compatLibPost) = ammonite.Constants.version.split('.').take(2).m
       """.stripMargin)
 }
 
-log(s"loading $compatLib")
-interp.load.module(pwd / RelPath(compatLib))
-log(s"loaded  $compatLib")
+val compatLibPath = pwd / RelPath(compatLib)
+log(s"loading $compatLibPath")
+interp.load.module(compatLibPath)
+log(s"loaded  $compatLibPath")
 
 // XXX: 1.6.7 throws exception
 // write.over(pwd / RelPath("libs/compatPost.sc"), compatLibPost)
