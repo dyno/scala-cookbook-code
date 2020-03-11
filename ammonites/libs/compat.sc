@@ -25,12 +25,6 @@ log(s"loading $compatLibPath")
 interp.load.module(compatLibPath)
 log(s"loaded  $compatLibPath")
 
-// XXX: 1.6.7 throws exception
-// write.over(pwd / RelPath("libs/compatPost.sc"), compatLibPost)
-// https://stackoverflow.com/questions/6879427/scala-write-string-to-file-in-one-statement
-import java.nio.file.{Paths, Files}
-import java.nio.charset.StandardCharsets
-
 val compatLibPostFiles = Seq("compatPost.sc", "libs/compatPost.sc")
-log(s"write $compatLibPostFiles")
-compatLibPostFiles.foreach(compatLibPostFile => Files.write(Paths.get(compatLibPostFile), compatLibPost.getBytes(StandardCharsets.UTF_8)))
+log(s"generate $compatLibPostFiles")
+compatLibPostFiles.foreach(compatLibPostFile => write.over(pwd / RelPath(compatLibPostFile), compatLibPost))
