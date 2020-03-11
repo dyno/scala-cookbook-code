@@ -23,7 +23,7 @@ import pprint.log
 
 // repos.sc - to access repos
 // sparkjars.sc - for AmmoniteSparkSession
-val modules = List("repos.sc", "sparkjars.sc")
+val modules = List("compat.sc", "repos.sc", "sparkjars.sc")
 val libModulePaths: List[Path] = modules.map(m => pwd / "libs" / m).filter(os.exists)
 val homeModulePaths: List[Path] = modules.map(home / ".ammonite" / _).filter(os.exists)
 Seq(libModulePaths, homeModulePaths).find(_.nonEmpty) match {

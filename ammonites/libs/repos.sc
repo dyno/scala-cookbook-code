@@ -1,11 +1,4 @@
-import ammonite.ops.{pwd, RelPath}
-interp.load.module(pwd / RelPath("libs/compat.sc"))
-@
 import $exec.`compatPost`
-
-import pprint.log
-//log(AmmMavenRepository)
-log(AmmSpark)
 
 /**
  * ## Nexus Repositories ##
