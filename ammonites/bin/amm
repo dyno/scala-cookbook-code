@@ -1,10 +1,11 @@
 #!/bin/bash
 
+# spark-2.4.5 => scala 2.12.10, 2.11.12
 if [[ "$SPARK_RELEASE" =~ scala-2\.12 ]]; then
-  scala_version=${SCALA_VERSION:-2.12.8}
+  scala_version=${SCALA_VERSION:-2.12.10}
   amm_version=${AMMONITE_VERSION:-2.0.4+}
 else
-  scala_version=${SCALA_VERSION:-2.11.8}
+  scala_version=${SCALA_VERSION:-2.11.12}
   amm_version=${AMMONITE_VERSION:-1.6.7}
 fi
 
