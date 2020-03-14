@@ -37,23 +37,19 @@ def gradleNexusCredential(gradleProperties: Path): Option[(String, String)] = {
 val gradleProperties = home / ".gradle" / "gradle.properties"
 val nexusCredential = Seq(envNexusCredential, gradleNexusCredential(gradleProperties)).find(_.isDefined).flatten
 
+case class RepoMeta(url: String, credential: Option[(String, String)] = None)
+
 // internal / private repositories
 val nexusRepoUrlList = Seq[String]()
-val nexusRepos = nexusRepoUrlList.map(url =>
-  nexusCredential match {
-    case Some((username, password)) => AmmMavenRepository.of(url, username, password)
-    case _ => AmmMavenRepository.of(url)
-  })
+val nexusRepoList = nexusRepoUrlList.map(url => RepoMeta(url, envNexusCredential))
 
-// external / 3rd party repos
-case class RepoMeta(url: String, credential: Option[(String, String)] = None)
-val moreRepoList = Seq(RepoMeta("https://jitpack.io"))
-val moreRepos = moreRepoList.map(_ match {
+// ++ external / 3rd party repos
+val allRepoList = nexusRepoList ++ Seq(RepoMeta("https://jitpack.io"))
+
+val allRepos = allRepoList.map(_ match {
   case RepoMeta(url, Some((username, password))) => AmmMavenRepository.of(url, username, password)
   case RepoMeta(url, _) => AmmMavenRepository.of(url)
 })
-
-val allRepos = nexusRepos ++ moreRepos
 if (ammonite.Constants.version <= "1.6.7") {
   interp.repositories() ++= allRepos
 } else {
