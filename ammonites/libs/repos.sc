@@ -37,17 +37,29 @@ def gradleNexusCredential(gradleProperties: Path): Option[(String, String)] = {
 val gradleProperties = home / ".gradle" / "gradle.properties"
 val nexusCredential = Seq(envNexusCredential, gradleNexusCredential(gradleProperties)).find(_.isDefined).flatten
 
-// XXX: an example, maven.google don't really need authentication
-val nexusRepoUrlList = List[String]("https://maven.google.com")
-nexusCredential.foreach {
-  case (username, password) =>
-    val nexusRepos = nexusRepoUrlList.map(url => AmmMavenRepository.of(url, username, password))
-    if (ammonite.Constants.version <= "1.6.7") {
-      interp.repositories() ++= nexusRepos
-    } else {
-      interp.repositories.update(interp.repositories() ++ nexusRepos)
-    }
+// internal / private repositories
+val nexusRepoUrlList = Seq[String]()
+val nexusRepos = nexusRepoUrlList.map(url =>
+  nexusCredential match {
+    case Some((username, password)) => AmmMavenRepository.of(url, username, password)
+    case _ => AmmMavenRepository.of(url)
+  })
+
+// external / 3rd party repos
+case class RepoMeta(url: String, credential: Option[(String, String)] = None)
+val moreRepoList = Seq(RepoMeta("https://jitpack.io"))
+val moreRepos = moreRepoList.map(_ match {
+  case RepoMeta(url, Some((username, password))) => AmmMavenRepository.of(url, username, password)
+  case RepoMeta(url, _) => AmmMavenRepository.of(url)
+})
+
+val allRepos = nexusRepos ++ moreRepos
+if (ammonite.Constants.version <= "1.6.7") {
+  interp.repositories() ++= allRepos
+} else {
+  interp.repositories.update(interp.repositories() ++ allRepos)
 }
+
 
 /**
  * ## Local Repositories ##

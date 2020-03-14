@@ -43,7 +43,7 @@ $(info HADOOP_RELEASE=$(HADOOP_RELEASE), SPARK_DIST_CLASSPATH=$(SPARK_DIST_CLASS
 
 .DEFAULT_GOAL: amm
 .PHONY: amm
-amm: bin/amm bin/coursier
+amm: bin/amm bin/coursier $(SPARK_RELEASE)
 	# XXX: cache will make load.module behave differently.
 	rm -rf ~/.ammonite/cache
 	source ~/.sdkman/bin/sdkman-init.sh                \
