@@ -156,18 +156,43 @@ students.flatMap(identity).collect()
 
 
 // work with Row
-{
-  val students = filtered.select("students")
-  students.show()
-  students
-    .map(row =>
-      row match {
-        case Row(s: Seq[Row]) =>
-          s.map { case Row(age: String, id: String, name: String) => Student(age, id, name) }
-      })
-    .flatMap(identity)
-    .collect()
-}
+
+val students = filtered.select("students")
+students.show()
+students
+  .map(row =>
+    row match {
+      case Row(s: Seq[Row]) =>
+        s.map { case Row(age: String, id: String, name: String) => Student(age, id, name) }
+    })
+  .flatMap(identity)
+  .collect()
+
+import org.apache.spark.sql.types.DataTypes._
+
+val studentFields = createStructField("age", StringType, true) :: createStructField("id", StringType, true) :: createStructField(
+  "name",
+  StringType,
+  true) :: Nil
+val studentSchema = createStructType(studentFields.toArray)
+val studentsFields = createStructField("students", createArrayType(studentSchema), true) :: Nil
+val studentsSchema = createStructType(studentsFields.toArray)
+val rowEncoder = RowEncoder(studentsSchema)
+
+val students = filtered.select("students").as[Row](rowEncoder)
+val encoder = Encoders.tuple(Encoders.STRING, Encoders.STRING)
+val df = students
+  .map(row =>
+    row match {
+      case Row(s: Seq[Row]) =>
+        s.map { case Row(age: String, id: String, name: String) => (age, name) }
+    })
+  .flatMap(identity)(encoder)
+// the point is with encoder, we can still use the result as Dataset.
+df.select("_1").show()
+
+// and join
+filtered.join(df.withColumn("age", col("_1")), "age").show()
 
 }
 

@@ -16,9 +16,11 @@ import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.catalyst.encoders._
 
+// https://stackoverflow.com/questions/53939687/scala-spark-org-apache-spark-repl-executorclassloader-failed-to-check-existe
 implicit val spark: SparkSession = {
   val builder = AmmSparkSession.builder
     .master("local[*]")
+    .config("spark.driver.host", "127.0.0.1")
     .config("spark.home", sys.env("SPARK_HOME"))
     .config("spark.logConf", "true")
 
