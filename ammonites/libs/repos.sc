@@ -37,30 +37,29 @@ def gradleNexusCredential(gradleProperties: Path): Option[(String, String)] = {
 val gradleProperties = home / ".gradle" / "gradle.properties"
 val nexusCredential = Seq(envNexusCredential, gradleNexusCredential(gradleProperties)).find(_.isDefined).flatten
 
+/**
+ * ## main ##
+ */
 case class RepoMeta(url: String, credential: Option[(String, String)] = None)
 
+// https://github.com/lihaoyi/Ammonite/pull/612, Resolution of local Maven artifacts does not work
+val localRepoUrls = Seq(s"""file://${sys.env("HOME")}/.m2/repository/""")
+val localRepos = localRepoUrls.map(url => RepoMeta(url, None))
+
 // internal / private repositories
-val nexusRepoUrlList = Seq[String]()
-val nexusRepoList = nexusRepoUrlList.map(url => RepoMeta(url, envNexusCredential))
+val nexusRepoUrls = Seq[String]()
+val nexusRepos = nexusRepoUrls.map(url => RepoMeta(url, envNexusCredential))
 
-// ++ external / 3rd party repos
-val allRepoList = nexusRepoList ++ Seq(RepoMeta("https://jitpack.io"))
+// external / 3rd party repos
+val thirdPartyRepos = Seq(RepoMeta("https://jitpack.io"))
 
-val allRepos = allRepoList.map(_ match {
+val allRepos = (localRepos ++ nexusRepos ++ thirdPartyRepos).map(_ match {
   case RepoMeta(url, Some((username, password))) => AmmMavenRepository.of(url, username, password)
   case RepoMeta(url, _) => AmmMavenRepository.of(url)
 })
+
 if (ammonite.Constants.version <= "1.6.7") {
   interp.repositories() ++= allRepos
 } else {
   interp.repositories.update(interp.repositories() ++ allRepos)
 }
-
-
-/**
- * ## Local Repositories ##
- *
- * https://github.com/lihaoyi/Ammonite/pull/612, Resolution of local Maven artifacts does not work
- */
-val mavenRepoLocal = AmmMavenRepository.of("file://" + java.lang.System.getProperties.get("user.home") + "/.m2/repository/")
-interp.repositories() ++= Seq(mavenRepoLocal)
