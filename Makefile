@@ -1,7 +1,5 @@
 SHELL = /bin/bash
 
-export SPARK_RELEASE := spark-2.4.5-bin-without-hadoop-scala-2.12
-
 .DEFAULT_GOAL := amm
 amm:
 	$(MAKE) -C ammonites amm

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+
+  <!-- https://issues.apache.org/jira/browse/HADOOP-13277 -->
+  <property>
+    <name>fs.s3a.aws.credentials.provider</name>
+    <value>com.amazonaws.auth.DefaultAWSCredentialsProviderChain</value>
+  </property>
+
+  <!-- https://hadoop.apache.org/docs/current/hadoop-aws/tools/hadoop-aws/s3guard.html -->
+  <property>
+    <name>fs.s3a.metadatastore.impl</name>
+    <value>org.apache.hadoop.fs.s3a.s3guard.DynamoDBMetadataStore</value>
+  </property>
+  <property>
+    <name>fs.s3a.s3guard.ddb.table.create</name>
+    <value>true</value>
+    <description>If true, the S3A client will create the table if it does not already exist.</description>
+  </property>
+  <property>
+    <name>fs.s3a.s3guard.ddb.region</name>
+    <value>us-east-1</value>
+  </property>
+
+</configuration>
