@@ -3,6 +3,11 @@ pprint.pprintln(interp.repositories())
 pprint.pprintln(repl.sess.frames(0).classpath)
 pprint.pprintln(repl.fullImports)
 
+// function signature
+val numbers = List(1, 2, 3)
+numbers.foldLeft // <TAB>
+// override def foldLeft[B](z: B)(op: (B, A) => B): B
+
 // versions
 ammonite.Constants.version
 scala.util.Properties.versionNumberString
