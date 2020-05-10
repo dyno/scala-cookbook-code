@@ -10,7 +10,7 @@ $(error $(UNAME) is not supported.)
 endif
 
 export ENABLE_HIVE := 0
-export SPARK_SCALA_212 := 0
+export SPARK_SCALA_212 := 1
 
 # ## Spark ##
 ifeq ($(ENABLE_HIVE),1)
