@@ -1,4 +1,10 @@
-toc.xml
-project
-target
+GPATH
+GRTAGS
+GTAGS
+ammonites/.ipynb_checkpoints/
+ammonites/bin/coursier
 bin/coursier
+project
+tags
+target
+toc.xml
