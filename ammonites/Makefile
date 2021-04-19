@@ -14,13 +14,13 @@ export SPARK_SCALA_212 := 1
 
 # ## Spark ##
 ifeq ($(ENABLE_HIVE),1)
-SPARK_RELEASE := spark-2.4.5-bin-hadoop2.7
+SPARK_RELEASE := spark-2.4.7-bin-hadoop2.7
 export USE_AMMONITE_SPARK := 0
 else ifeq ($(SPARK_SCALA_212),1)
-SPARK_RELEASE := spark-2.4.5-bin-without-hadoop-scala-2.12
+SPARK_RELEASE := spark-2.4.7-bin-without-hadoop-scala-2.12
 export USE_AMMONITE_SPARK := 1
 else
-SPARK_RELEASE := spark-2.4.5-bin-without-hadoop
+SPARK_RELEASE := spark-2.4.7-bin-without-hadoop
 export USE_AMMONITE_SPARK := 1
 endif
 export SPARK_RELEASE
@@ -38,7 +38,7 @@ export HADOOP_RELEASE
 $(info HADOOP_RELEASE=$(HADOOP_RELEASE))
 
 # https://api.sdkman.io/2/candidates/java/Darwin/versions/list?installed=
-JAVA_VERSION := 8.0.232-amzn
+JAVA_VERSION := 8.282.08.1-amzn
 $(info JAVA_VERSION=$(JAVA_VERSION))
 
 export HADOOP_HOME := $(HOME)/local/$(HADOOP_RELEASE)
