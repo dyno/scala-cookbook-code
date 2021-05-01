@@ -11,16 +11,7 @@
   <!-- https://hadoop.apache.org/docs/current/hadoop-aws/tools/hadoop-aws/s3guard.html -->
   <property>
     <name>fs.s3a.metadatastore.impl</name>
-    <value>org.apache.hadoop.fs.s3a.s3guard.DynamoDBMetadataStore</value>
-  </property>
-  <property>
-    <name>fs.s3a.s3guard.ddb.table.create</name>
-    <value>true</value>
-    <description>If true, the S3A client will create the table if it does not already exist.</description>
-  </property>
-  <property>
-    <name>fs.s3a.s3guard.ddb.region</name>
-    <value>us-east-1</value>
+    <value>org.apache.hadoop.fs.s3a.s3guard.NullMetadataStore</value>
   </property>
 
 </configuration>
