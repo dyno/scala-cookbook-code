@@ -9,13 +9,12 @@
 
 GIT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
 CONF_ROOT=${GIT_ROOT}/ammonites/conf
-HOME_LOCAL=${HOME_LOCAL:-${HOME}/local}
+HOME_OPT=${HOME_OPT:-${HOME}/opt}
 
 # ## Hadoop ##
 
-# XXX: bump hadoop version for local s3 support. since we don't access hadoop directly, not a big problem.
-HADOOP_RELEASE=${HADOOP_RELEASE:=hadoop-3.2.1}
-HADOOP_HOME=${HOME_LOCAL}/${HADOOP_RELEASE}
+HADOOP_RELEASE=${HADOOP_RELEASE:=hadoop-3.2.2}
+HADOOP_HOME=${HOME_OPT}/${HADOOP_RELEASE}
 [[ -d "${HADOOP_HOME}" ]] || echo "HADOOP_HOME=${HADOOP_HOME} does not exists! please run 'make ${HADOOP_RELEASE}'."
 HADOOP_CONF_DIR=${HADOOP_HOME}/etc/hadoop
 if ! grep -q ":${HADOOP_HOME}/bin:" <<<${PATH}; then
@@ -30,12 +29,10 @@ export HADOOP_HOME HADOOP_CONF_DIR
 
 # ## Spark ##
 
-SPARK_RELEASE=${SPARK_RELEASE:=spark-2.4.5-bin-without-hadoop}
+SPARK_RELEASE=${SPARK_RELEASE:=spark-3.1.1-bin-without-hadoop}
 SPARK_VERSION=$(awk -v FS=- '{print $2;}' <<<${SPARK_RELEASE})
 # http://spark.apache.org/docs/latest/hadoop-provided.html
-# https://issues.apache.org/jira/browse/HADOOP-12537, S3A to support Amazon STS temporary credentials
-# XXX: we need spark without hadoop because spark 2.4.0 bundled hadoop 2.7.3 does not support STS.
-SPARK_HOME=${HOME_LOCAL}/${SPARK_RELEASE}
+SPARK_HOME=${HOME_OPT}/${SPARK_RELEASE}
 [[ -d "${SPARK_HOME}" ]] || echo "SPARK_HOME=${SPARK_HOME} does not exists! please run 'make ${SPARK_RELEASE}'."
 SPARK_CONF_DIR=${SPARK_HOME}/conf
 SPARK_CONF_DEFAULTS=${SPARK_CONF_DIR}/spark-defaults.conf
