@@ -1,9 +1,15 @@
 #!/bin/bash
 
-scala_version=${SCALA_VERSION:-2.12.12}
+# https://github.com/com-lihaoyi/Ammonite/releases
 amm_version=${AMMONITE_VERSION:-2.3.8}
+scala_version=${SCALA_VERSION:-2.12.12}
 
 set -x
+
+# https://get-coursier.io/docs/cli-launch
+# https://almond.sh/docs/next/usage-spark
+# https://github.com/alexarchambault/ammonite-spark#quick-start
+
 bin/coursier launch --java-opt=-Xmx10240m --java-opt=-XX:+UseG1GC \
   "com.lihaoyi:ammonite_${scala_version}:${amm_version}" \
-  -M ammonite.Main -- "$@"
+  -M ammonite.Main -- --class-based "$@"
