@@ -8,6 +8,11 @@ val numbers = List(1, 2, 3)
 numbers.foldLeft // <TAB>
 // override def foldLeft[B](z: B)(op: (B, A) => B): B
 
+// import file
+import $file.libs.sparkSession
+val spark = ammonite.$sess.libs.sparkSession
+
+
 // versions
 ammonite.Constants.version
 scala.util.Properties.versionNumberString
@@ -20,6 +25,6 @@ pprint.log(scala.util.Properties.versionNumberString)
 pprint.log(s"${1 + 1}")
 
 // desugar
-import $ivy.`io.get-coursier::coursier:2.0.0-RC6-10`
+import $ivy.`io.get-coursier::coursier:2.0.16`
 import coursier._
-desugar(dep"sh.almond::ammonite-spark:0.90")
+desugar(dep"sh.almond::ammonite-spark:0.10.1")

@@ -23,8 +23,6 @@ $(info SPARK_VERSION=$(SPARK_VERSION))
 export SPARK_HOME := $(OPT_DIR)/$(SPARK_RELEASE)
 $(info SPARK_HOME=$(SPARK_HOME))
 
-USE_AMMONITE_SPARK := 1
-
 # ## Hadoop ##
 HADOOP_RELEASE := hadoop-3.2.2
 export HADOOP_RELEASE
@@ -47,23 +45,22 @@ $(info SPARK_DIST_CLASSPATH=$(SPARK_DIST_CLASSPATH))
 amm-spark: bin/amm bin/coursier $(SPARK_RELEASE)
 	# XXX: cache will make load.module behave differently.
 	rm -rf ~/.ammonite/cache
-	source ~/.sdkman/bin/sdkman-init.sh                \
-	  && source bin/bigdata-env.sh                     \
-	  && USE_AMMONITE_SPARK=$(USE_AMMONITE_SPARK) amm  \
-	      --no-home-predef --predef libs/predefRepl.sc \
+	source ~/.sdkman/bin/sdkman-init.sh                     \
+	  && source bin/bigdata-env.sh                          \
+	  && amm --no-home-predef --predef libs/predefShared.sc \
 	# END
 
 .PHONY: amm
 amm: bin/amm bin/coursier $(SPARK_RELEASE)
 	source ~/.sdkman/bin/sdkman-init.sh \
-	  && amm                            \
+	  && bin/amm                        \
 	# END
 
 FORCE:
 %.sc: FORCE
 	source ~/.sdkman/bin/sdkman-init.sh  \
 	  && source bin/bigdata-env.sh       \
-	  && USE_AMMONITE_SPARK=0 amm        \
+	  && bin/amm                         \
 	    --no-home-predef                 \
 	    --predef libs/predefShared.sc $@ \
 	# END

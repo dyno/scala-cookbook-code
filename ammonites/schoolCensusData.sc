@@ -21,8 +21,9 @@ val nullableToHeightCm: String => Option[Double] = height => {
 }
 
 // -------------------------------------------------------------------
-interp.load.module(pwd / RelPath("libs/sparkSession.sc"))
-@
+
+import $exec.SparkSessions
+
 val udfToHeightCm = udf(nullableToHeightCm)
 
 val selected: Seq[Column] = Seq(
@@ -39,13 +40,14 @@ val selected: Seq[Column] = Seq(
   col("Favorite_Music"),
   col("Superpower"))
 
+{
 val census = spark.read
   .format("csv")
   .option("header", "true")
   .option("delimiter", ",")
   .option("inferSchema", "true")
   .load("1583456966205_DATA.csv")
-
+}
 val df = census.select(selected: _*)
 df.show()
 

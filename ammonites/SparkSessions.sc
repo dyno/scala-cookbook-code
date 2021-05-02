@@ -1,15 +1,6 @@
-import $exec.`compatPost`
+// import $exec.SparkSessions
 
-// https://github.com/alexarchambault/ammonite-spark#compatibility
-log(interp.load.ivy(AmmSpark.depOfAmmoniteSpark))
-@
-
-val sparkSessionModule = sys.env.get("USE_AMMONITE_SPARK") match {
-  case Some("1") => pwd / RelPath("libs/_AmmoniteSparkSession.sc")
-  case _ => pwd / RelPath("libs/_SparkSession.sc")
-}
-interp.load.module(sparkSessionModule)
-@
+import $ivy.`org.apache.spark::spark-sql:3.1.1`
 
 import org.apache.spark.sql._
 import org.apache.spark.sql.catalyst.encoders._
@@ -20,7 +11,7 @@ import org.apache.spark.sql.types._
 
 // https://stackoverflow.com/questions/53939687/scala-spark-org-apache-spark-repl-executorclassloader-failed-to-check-existe
 implicit val spark: SparkSession = {
-  val builder = AmmSparkSession.builder
+  val builder = AmmoniteSparkSession.builder
     .master("local[*]")
     .config("spark.driver.host", "127.0.0.1")
     .config("spark.home", sys.env("SPARK_HOME"))
