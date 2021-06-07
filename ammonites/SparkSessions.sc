@@ -1,6 +1,7 @@
 // import $exec.SparkSessions
 
 import $ivy.`org.apache.spark::spark-sql:3.1.1`
+import $ivy.`sh.almond::ammonite-spark:0.10.1`
 
 import org.apache.spark.sql._
 import org.apache.spark.sql.catalyst.encoders._
