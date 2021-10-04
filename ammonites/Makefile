@@ -123,3 +123,9 @@ parquet/_SUCCESS: 1583456966205_DATA.csv
 
 .PHONY: data
 data:parquet/_SUCCESS
+
+spark-shell:
+		source ~/.sdkman/bin/sdkman-init.sh                                           \
+	  	&& source bin/bigdata-env.sh                                                \
+			&& spark-shell --packages org.apache.spark:spark-avro_2.12:$(SPARK_VERSION) \
+		# END
